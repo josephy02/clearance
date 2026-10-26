@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-034",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "mild_buried_symptom"
+  ],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Celeste Abernathy",
+    "patient_dob": "1958-11-22",
+    "medicare_id": "7K96UF7GA94",
+    "ordering_provider_name": "Helena Marchetti, MD",
+    "ordering_npi": "1966131868",
+    "item_ordered": "E0601",
+    "order_date": "2026-08-24",
+    "order_signed": true,
+    "f2f_date": "2026-07-08",
+    "sleep_test_date": "2026-08-03",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 7.4,
+    "total_events": 53
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card"
+  ],
+  "symptom": "buried",
+  "synthetic": true
+}

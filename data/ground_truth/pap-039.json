@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-039",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "inactive_npi"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Russell Quintanilla",
+    "patient_dob": "1950-09-16",
+    "medicare_id": "5RC4X85RR02",
+    "ordering_provider_name": "Greta Lund, MD",
+    "ordering_npi": "1918190939",
+    "item_ordered": "E0601",
+    "order_date": "2026-07-02",
+    "order_signed": true,
+    "f2f_date": "2026-05-17",
+    "sleep_test_date": "2026-06-18",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 24.6,
+    "total_events": 135
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "fail",
+    "coverage_active": "pass"
+  },
+  "route": "human_review",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

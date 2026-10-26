@@ -1,0 +1,41 @@
+{
+  "order_id": "pap-030",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Delphine Halvorsen",
+    "patient_dob": "1955-10-12",
+    "medicare_id": "4A54VD3UH39",
+    "ordering_provider_name": "Tobias Ferreira, PA-C",
+    "ordering_npi": "1982199352",
+    "item_ordered": "E0601",
+    "order_date": "2026-08-11",
+    "order_signed": true,
+    "f2f_date": "2026-07-02",
+    "sleep_test_date": "2026-08-02",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 27.1,
+    "total_events": 197
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

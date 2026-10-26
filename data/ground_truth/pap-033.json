@@ -1,0 +1,44 @@
+{
+  "order_id": "pap-033",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "mild_no_symptom"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Arturo Brannigan",
+    "patient_dob": "1954-11-06",
+    "medicare_id": "1TD0KH1YN46",
+    "ordering_provider_name": "Helena Marchetti, MD",
+    "ordering_npi": "1966131868",
+    "item_ordered": "E0601",
+    "order_date": "2026-04-10",
+    "order_signed": true,
+    "f2f_date": "2026-03-19",
+    "sleep_test_date": "2026-03-31",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 12.2,
+    "total_events": 83
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "fail",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "human_review",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card",
+    "other"
+  ],
+  "symptom": "denied",
+  "synthetic": true
+}

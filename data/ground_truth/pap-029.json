@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-029",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "mild_buried_symptom"
+  ],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Marisol Okafor",
+    "patient_dob": "1951-07-12",
+    "medicare_id": "8KN3UV3WJ03",
+    "ordering_provider_name": "Kenji Albrecht, MD",
+    "ordering_npi": "1909139093",
+    "item_ordered": "E0601",
+    "order_date": "2026-07-07",
+    "order_signed": true,
+    "f2f_date": "2026-05-19",
+    "sleep_test_date": "2026-07-04",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 5.4,
+    "total_events": 35
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card",
+    "other"
+  ],
+  "symptom": "buried",
+  "synthetic": true
+}

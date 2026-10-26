@@ -1,0 +1,42 @@
+{
+  "order_id": "pap-040",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "missing_sleep_study"
+  ],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Wendell Underhill",
+    "patient_dob": "1944-05-23",
+    "medicare_id": "7DX9P38GF44",
+    "ordering_provider_name": "Helena Marchetti, MD",
+    "ordering_npi": "1966131868",
+    "item_ordered": "E0601",
+    "order_date": "2026-02-22",
+    "order_signed": true,
+    "f2f_date": "2025-12-04",
+    "sleep_test_date": null,
+    "sleep_test_type": null,
+    "ahi_or_rdi": null,
+    "total_events": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "fail",
+    "qualifying_sleep_test": "fail",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

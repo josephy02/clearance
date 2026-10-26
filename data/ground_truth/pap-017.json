@@ -1,0 +1,42 @@
+{
+  "order_id": "pap-017",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Gordon Nakashima",
+    "patient_dob": "1944-04-08",
+    "medicare_id": "7PC2AD4RG07",
+    "ordering_provider_name": "Dana Whitfield, MD",
+    "ordering_npi": "1952601817",
+    "item_ordered": "E0601",
+    "order_date": "2026-07-12",
+    "order_signed": true,
+    "f2f_date": "2026-04-30",
+    "sleep_test_date": "2026-06-24",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 27.8,
+    "total_events": 166
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "sleep_study_report",
+    "other",
+    "order_swo",
+    "face_to_face_note",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

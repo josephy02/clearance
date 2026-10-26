@@ -1,0 +1,41 @@
+{
+  "order_id": "pap-010",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Rosalind Okafor",
+    "patient_dob": "1938-08-22",
+    "medicare_id": "2V32R73HA32",
+    "ordering_provider_name": "Samuel Oduya, DO",
+    "ordering_npi": "1959083019",
+    "item_ordered": "E0601",
+    "order_date": "2026-03-29",
+    "order_signed": true,
+    "f2f_date": "2026-01-08",
+    "sleep_test_date": "2026-03-20",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 29.7,
+    "total_events": 195
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card",
+    "other"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

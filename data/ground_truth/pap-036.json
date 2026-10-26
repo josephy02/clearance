@@ -1,0 +1,41 @@
+{
+  "order_id": "pap-036",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "missing_sleep_study"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Russell Halvorsen",
+    "patient_dob": "1949-05-25",
+    "medicare_id": "5HT3GJ3FM74",
+    "ordering_provider_name": "Samuel Oduya, DO",
+    "ordering_npi": "1959083019",
+    "item_ordered": "E0601",
+    "order_date": "2026-04-12",
+    "order_signed": true,
+    "f2f_date": "2026-03-14",
+    "sleep_test_date": null,
+    "sleep_test_type": null,
+    "ahi_or_rdi": null,
+    "total_events": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "fail",
+    "qualifying_sleep_test": "fail",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "order_swo",
+    "face_to_face_note",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

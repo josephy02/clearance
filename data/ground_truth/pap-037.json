@@ -1,0 +1,44 @@
+{
+  "order_id": "pap-037",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "mild_no_symptom"
+  ],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Vernon Brannigan",
+    "patient_dob": "1951-03-05",
+    "medicare_id": "4EC3Y69HD47",
+    "ordering_provider_name": "Rowan Esposito, ARNP",
+    "ordering_npi": "1996030825",
+    "item_ordered": "E0601",
+    "order_date": "2026-03-12",
+    "order_signed": true,
+    "f2f_date": "2025-12-17",
+    "sleep_test_date": "2026-02-19",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 7.6,
+    "total_events": 53
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "fail",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "human_review",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card",
+    "other"
+  ],
+  "symptom": "denied",
+  "synthetic": true
+}

@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-015",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "f2f_after_test"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Theodore Yarborough",
+    "patient_dob": "1941-12-22",
+    "medicare_id": "5DY3DK1TA43",
+    "ordering_provider_name": "Rowan Esposito, ARNP",
+    "ordering_npi": "1996030825",
+    "item_ordered": "E0601",
+    "order_date": "2026-04-30",
+    "order_signed": true,
+    "f2f_date": "2026-04-27",
+    "sleep_test_date": "2026-04-21",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 26.0,
+    "total_events": 148
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "fail",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "other",
+    "face_to_face_note",
+    "sleep_study_report",
+    "order_swo",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

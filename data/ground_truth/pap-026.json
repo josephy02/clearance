@@ -1,0 +1,42 @@
+{
+  "order_id": "pap-026",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Nadia Quintanilla",
+    "patient_dob": "1944-04-06",
+    "medicare_id": "9HJ1GN8DN30",
+    "ordering_provider_name": "Helena Marchetti, MD",
+    "ordering_npi": "1966131868",
+    "item_ordered": "E0601",
+    "order_date": "2026-03-14",
+    "order_signed": true,
+    "f2f_date": "2026-02-08",
+    "sleep_test_date": "2026-03-12",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 33.3,
+    "total_events": 210
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "insurance_card",
+    "sleep_study_report",
+    "face_to_face_note",
+    "other"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

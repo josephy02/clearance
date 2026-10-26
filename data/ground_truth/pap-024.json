@@ -1,0 +1,41 @@
+{
+  "order_id": "pap-024",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Wendell Fairbanks",
+    "patient_dob": "1942-07-25",
+    "medicare_id": "1M02JK6VN24",
+    "ordering_provider_name": "Tobias Ferreira, PA-C",
+    "ordering_npi": "1982199352",
+    "item_ordered": "E0601",
+    "order_date": "2026-04-12",
+    "order_signed": true,
+    "f2f_date": "2026-02-08",
+    "sleep_test_date": "2026-04-10",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 42.5,
+    "total_events": 311
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

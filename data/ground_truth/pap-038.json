@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-038",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "unsigned_order"
+  ],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Agnes Nakashima",
+    "patient_dob": "1949-06-08",
+    "medicare_id": "1Y33A65RP23",
+    "ordering_provider_name": "Rowan Esposito, ARNP",
+    "ordering_npi": "1996030825",
+    "item_ordered": "E0601",
+    "order_date": "2026-04-02",
+    "order_signed": false,
+    "f2f_date": "2026-03-09",
+    "sleep_test_date": "2026-03-25",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 9.9,
+    "total_events": 64
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "fail",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card"
+  ],
+  "symptom": "explicit",
+  "synthetic": true
+}

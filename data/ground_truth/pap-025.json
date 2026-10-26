@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-025",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "f2f_after_test"
+  ],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Mabel Sorensen",
+    "patient_dob": "1940-03-13",
+    "medicare_id": "9FG7RN4MK94",
+    "ordering_provider_name": "Ines Varga, MD",
+    "ordering_npi": "1946281940",
+    "item_ordered": "E0601",
+    "order_date": "2026-07-14",
+    "order_signed": true,
+    "f2f_date": "2026-07-05",
+    "sleep_test_date": "2026-06-21",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 39.4,
+    "total_events": 247
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "fail",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "face_to_face_note",
+    "sleep_study_report",
+    "order_swo",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

@@ -1,0 +1,42 @@
+{
+  "order_id": "pap-006",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Jane Doe",
+    "patient_dob": "1955-05-05",
+    "medicare_id": "1AA2CC3DD45",
+    "ordering_provider_name": "Ines Varga, MD",
+    "ordering_npi": "1946281940",
+    "item_ordered": "E0601",
+    "order_date": "2026-03-20",
+    "order_signed": true,
+    "f2f_date": "2026-01-04",
+    "sleep_test_date": "2026-03-13",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 24.6,
+    "total_events": 182
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card",
+    "other"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

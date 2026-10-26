@@ -1,0 +1,41 @@
+{
+  "order_id": "pap-008",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Jane Doe",
+    "patient_dob": "1955-05-05",
+    "medicare_id": "1AA2CC3DD45",
+    "ordering_provider_name": "Rowan Esposito, ARNP",
+    "ordering_npi": "1996030825",
+    "item_ordered": "E0601",
+    "order_date": "2026-04-16",
+    "order_signed": true,
+    "f2f_date": "2026-01-29",
+    "sleep_test_date": "2026-04-03",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 31.3,
+    "total_events": 185
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "sleep_study_report",
+    "insurance_card",
+    "face_to_face_note"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

@@ -1,0 +1,46 @@
+{
+  "order_id": "pap-022",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "illegible_ahi"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Theodore Oyelaran",
+    "patient_dob": "1958-08-03",
+    "medicare_id": "2VT4QH3DX11",
+    "ordering_provider_name": "Samuel Oduya, DO",
+    "ordering_npi": "1959083019",
+    "item_ordered": "E0601",
+    "order_date": "2026-07-25",
+    "order_signed": true,
+    "f2f_date": "2026-05-02",
+    "sleep_test_date": "2026-07-15",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 21.6,
+    "total_events": 154
+  },
+  "illegible_fields": [
+    "ahi_or_rdi"
+  ],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "unverifiable",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "human_review",
+  "page_types": [
+    "cover_sheet",
+    "face_to_face_note",
+    "other",
+    "order_swo",
+    "insurance_card",
+    "sleep_study_report"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

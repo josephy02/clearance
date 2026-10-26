@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-018",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "missing_sleep_study"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Beatriz Delacroix",
+    "patient_dob": "1939-07-19",
+    "medicare_id": "5HP2AN6DU35",
+    "ordering_provider_name": "Rowan Esposito, ARNP",
+    "ordering_npi": "1996030825",
+    "item_ordered": "E0601",
+    "order_date": "2026-06-30",
+    "order_signed": true,
+    "f2f_date": "2026-05-20",
+    "sleep_test_date": null,
+    "sleep_test_type": null,
+    "ahi_or_rdi": null,
+    "total_events": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "fail",
+    "qualifying_sleep_test": "fail",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "insurance_card",
+    "other"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

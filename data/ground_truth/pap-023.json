@@ -1,0 +1,44 @@
+{
+  "order_id": "pap-023",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "f2f_after_test"
+  ],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Marisol Sorensen",
+    "patient_dob": "1958-03-22",
+    "medicare_id": "7M32RP6NE42",
+    "ordering_provider_name": "Dana Whitfield, MD",
+    "ordering_npi": "1952601817",
+    "item_ordered": "E0601",
+    "order_date": "2026-04-17",
+    "order_signed": true,
+    "f2f_date": "2026-04-12",
+    "sleep_test_date": "2026-03-29",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 24.2,
+    "total_events": 133
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "fail",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card",
+    "other"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

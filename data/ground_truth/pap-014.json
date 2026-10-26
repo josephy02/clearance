@@ -1,0 +1,41 @@
+{
+  "order_id": "pap-014",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Mabel Thibodeaux",
+    "patient_dob": "1940-11-19",
+    "medicare_id": "2J81DK4CG34",
+    "ordering_provider_name": "Tobias Ferreira, PA-C",
+    "ordering_npi": "1982199352",
+    "item_ordered": "E0601",
+    "order_date": "2026-02-17",
+    "order_signed": true,
+    "f2f_date": "2025-12-08",
+    "sleep_test_date": "2026-02-07",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 38.5,
+    "total_events": 251
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "sleep_study_report",
+    "face_to_face_note",
+    "insurance_card",
+    "order_swo"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}

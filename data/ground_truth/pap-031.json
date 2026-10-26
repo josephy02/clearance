@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-031",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "mild_buried_symptom"
+  ],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Calvin Pemberton",
+    "patient_dob": "1940-06-09",
+    "medicare_id": "4AY2RC0GQ57",
+    "ordering_provider_name": "Ines Varga, MD",
+    "ordering_npi": "1946281940",
+    "item_ordered": "E0601",
+    "order_date": "2026-03-30",
+    "order_signed": true,
+    "f2f_date": "2026-03-05",
+    "sleep_test_date": "2026-03-26",
+    "sleep_test_type": "HST",
+    "ahi_or_rdi": 14.0,
+    "total_events": 86
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card"
+  ],
+  "symptom": "buried",
+  "synthetic": true
+}

@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-011",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "unsigned_order"
+  ],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Rosalind Underhill",
+    "patient_dob": "1944-10-23",
+    "medicare_id": "9VA7GY0FG18",
+    "ordering_provider_name": "Kenji Albrecht, MD",
+    "ordering_npi": "1909139093",
+    "item_ordered": "E0601",
+    "order_date": "2026-07-01",
+    "order_signed": false,
+    "f2f_date": "2026-05-21",
+    "sleep_test_date": "2026-06-12",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 11.6,
+    "total_events": 76
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "fail",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "sleep_study_report",
+    "insurance_card",
+    "face_to_face_note",
+    "order_swo"
+  ],
+  "symptom": "explicit",
+  "synthetic": true
+}

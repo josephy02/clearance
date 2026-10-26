@@ -1,0 +1,43 @@
+{
+  "order_id": "pap-019",
+  "pack_id": "medicare-pap-osa-initial",
+  "defects": [
+    "invalid_npi"
+  ],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Calvin Zielinski",
+    "patient_dob": "1955-06-22",
+    "medicare_id": "6UF4Y02CV80",
+    "ordering_provider_name": "Kenji Albrecht, MD",
+    "ordering_npi": "1993100250",
+    "item_ordered": "E0601",
+    "order_date": "2026-07-17",
+    "order_signed": true,
+    "f2f_date": "2026-05-01",
+    "sleep_test_date": "2026-07-11",
+    "sleep_test_type": "PSG",
+    "ahi_or_rdi": 47.6,
+    "total_events": 315
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "f2f_before_test": "pass",
+    "qualifying_sleep_test": "pass",
+    "provider_active": "fail",
+    "coverage_active": "pass"
+  },
+  "route": "human_review",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "sleep_study_report",
+    "insurance_card"
+  ],
+  "symptom": "none",
+  "synthetic": true
+}
