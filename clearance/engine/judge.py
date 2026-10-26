@@ -73,7 +73,7 @@ def guard(raw: str, extraction: Extraction, model: str) -> Judgment:
     return Judgment(answer, quote, page, confidence, explanation, grounded, model)
 
 
-_SENTENCE = re.compile(r"(?<=[.;])\s+|\n")
+_SENTENCE = re.compile(r"(?<=[.;])\s+")
 
 
 class KeywordJudge:
@@ -87,9 +87,11 @@ class KeywordJudge:
 
     def ask(self, question: str, extraction: Extraction, keywords: list[str]) -> Judgment:
         for page in extraction.pages:
-            for sentence in _SENTENCE.split(page.text):
+            # OCR wraps lines mid-sentence; negation scope is the sentence, not the line.
+            for sentence in _SENTENCE.split(" ".join(ln.text for ln in page.lines)):
                 low = sentence.lower()
-                hit = next((k for k in keywords if k.lower() in low), None)
+                hit = next((k for k in keywords
+                            if re.search(rf"\b{re.escape(k.lower())}\b", low)), None)
                 if hit and not _negated(low, hit.lower()):
                     reply = {"answer": "yes", "quote": sentence.strip(), "confidence": 0.9,
                              "explanation": f"Mentions '{hit}' (offline keyword match)."}
@@ -99,12 +101,12 @@ class KeywordJudge:
         return guard(json.dumps(reply), extraction, self.model)
 
 
-_NEGATIONS = ("denies", "no ", "not ", "negative for", "without")
+_NEGATIONS = re.compile(r"\b(denies|denied|no|not|negative for|without|never)\b")
 
 
 def _negated(sentence: str, keyword: str) -> bool:
-    before = sentence[: sentence.find(keyword)]
-    return any(n in before[-30:] for n in _NEGATIONS)
+    """A negation anywhere earlier in the same sentence ("No history of HTN, CAD, or stroke")."""
+    return bool(_NEGATIONS.search(sentence[: sentence.find(keyword)]))
 
 
 _PROMPT = """You check whether a medical-supply referral packet documents something.

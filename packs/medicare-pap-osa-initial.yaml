@@ -57,7 +57,7 @@ extraction:
     - {name: order_date, type: date, required: true, document_type: order_swo,
        labels: ["Order Date", "Date of Order", "Date Ordered"]}
     - {name: order_signed, type: boolean, required: true, document_type: order_swo, detect: ink,
-       labels: ["Practitioner Signature", "Signature", "Signed"]}
+       labels: ["Practitioner Signature", "Signature"]}
     - {name: f2f_date, type: date, required: true, document_type: face_to_face_note,
        labels: ["Date of Visit", "Visit Date", "Encounter Date", "Date of Service"]}
     - {name: sleep_test_date, type: date, required: true, document_type: sleep_study_report,
@@ -135,7 +135,7 @@ rules:
               impaired cognition, mood disorder, insomnia, hypertension, ischemic heart
               disease, or history of stroke?
             require_quote: true
-            keywords: ["daytime sleepiness", "excessive sleepiness", "falls asleep", "dozing", "epworth",
+            keywords: ["daytime sleepiness", "excessive sleepiness", "falls asleep", "dozing", "dozes",
                        "impaired cognition", "memory", "concentration", "depression", "mood disorder", "anxiety",
                        "insomnia", "hypertension", "high blood pressure", "htn", "ischemic heart disease",
                        "coronary artery disease", "cad", "myocardial infarction", "stroke", "cva", "tia"]
