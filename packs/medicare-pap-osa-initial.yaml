@@ -1,0 +1,166 @@
+# Medicare FFS — PAP (E0601) for obstructive sleep apnea, initial 12-week coverage.
+#
+# Verified 2026-10-26 against LCD L33718 revision R11 (effective 2024-01-01).
+# Scope notes:
+#   - LCD criterion C (supplier instructs the beneficiary on use and care) happens at
+#     delivery, after intake, so it is not checked here.
+#   - Continued coverage (re-evaluation on days 31-91, 4h/night on 70% of nights)
+#     belongs in a separate pack: medicare-pap-osa-continued.
+#   - E0470/E0471 bilevel devices have different criteria and are out of scope.
+pack_id: medicare-pap-osa-initial
+version: 1.0.0
+item:
+  name: "Positive airway pressure (CPAP) device, initial 12-week coverage"
+  hcpcs: [E0601]
+payer: medicare-ffs
+
+sources:
+  - id: lcd
+    title: "LCD L33718: Positive Airway Pressure (PAP) Devices for the Treatment of Obstructive Sleep Apnea"
+    url: https://www.cms.gov/medicare-coverage-database/view/lcd.aspx?lcdid=33718
+    effective: "2024-01-01 (R11)"
+  - id: sdr
+    title: "Article A55426: Standard Documentation Requirements for All Claims Submitted to DME MACs"
+    url: https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleid=55426
+  - id: checklist
+    title: "CGS DME MAC Jurisdiction C: PAP documentation checklist"
+    url: https://www.cgsmedicare.com/jc/mr/documentation_checklists.html
+
+extraction:
+  document_types:
+    - id: order_swo
+      title: Standard written order
+      hints: ["standard written order", "written order", "detailed written order", "order for durable", "dme order", "prescription"]
+    - id: face_to_face_note
+      title: Face-to-face clinical evaluation
+      hints: ["office visit", "progress note", "clinic note", "face-to-face", "history of present illness", "chief complaint", "assessment and plan"]
+    - id: sleep_study_report
+      title: Sleep study report
+      hints: ["polysomnogra", "sleep study", "home sleep apnea test", "apnea-hypopnea index", "respiratory disturbance index", "interpretation"]
+    - id: insurance_card
+      title: Insurance card
+      hints: ["medicare health insurance", "medicare beneficiary identifier", "entitled to", "coverage starts", "member card"]
+    - id: cover_sheet
+      title: Fax cover sheet
+      hints: ["fax cover", "facsimile", "number of pages", "confidentiality notice", "transmittal"]
+
+  fields:
+    - {name: patient_name, type: string, required: true, labels: ["Patient Name", "Patient", "Beneficiary Name", "Name"]}
+    - {name: patient_dob, type: date, required: true, labels: ["Date of Birth", "DOB", "Birth Date"]}
+    - {name: medicare_id, type: string, required: true, labels: ["Medicare ID", "MBI", "Medicare Number", "Medicare Beneficiary ID"]}
+    - {name: ordering_provider_name, type: string, required: true, document_type: order_swo,
+       labels: ["Ordering Practitioner", "Treating Practitioner", "Ordering Physician", "Prescriber"]}
+    - {name: ordering_npi, type: string, required: true, document_type: order_swo,
+       labels: ["Practitioner NPI", "Prescriber NPI", "NPI"]}
+    - {name: item_ordered, type: string, required: true, document_type: order_swo,
+       labels: ["Item Ordered", "Equipment", "Item", "Device"]}
+    - {name: order_date, type: date, required: true, document_type: order_swo,
+       labels: ["Order Date", "Date of Order", "Date Ordered"]}
+    - {name: order_signed, type: boolean, required: true, document_type: order_swo, detect: ink,
+       labels: ["Practitioner Signature", "Signature", "Signed"]}
+    - {name: f2f_date, type: date, required: true, document_type: face_to_face_note,
+       labels: ["Date of Visit", "Visit Date", "Encounter Date", "Date of Service"]}
+    - {name: sleep_test_date, type: date, required: true, document_type: sleep_study_report,
+       labels: ["Study Date", "Date of Study", "Recording Date", "Test Date"]}
+    - {name: sleep_test_type, type: enum, values: [PSG, HST], required: true, document_type: sleep_study_report,
+       labels: ["Study Type", "Type of Study", "Test Type"]}
+    - {name: ahi_or_rdi, type: number, required: true, document_type: sleep_study_report,
+       labels: ["Apnea-Hypopnea Index", "Respiratory Disturbance Index", "AHI", "RDI", "REI"]}
+    - {name: total_events, type: integer, required: true, document_type: sleep_study_report,
+       labels: ["Total Respiratory Events", "Total Events", "Total Apneas + Hypopneas"]}
+
+rules:
+  - id: order_signed
+    type: present_true
+    field: order_signed
+    source: sdr
+    cite: "Standard Written Order (SWO): treating practitioner signature"
+    on_fail: needs_info
+    message: "The written order is not signed by the treating practitioner."
+    request: "A standard written order for E0601 signed and dated by the treating practitioner."
+
+  - id: order_elements
+    type: all_of
+    source: sdr
+    cite: "Standard Written Order (SWO): required elements"
+    on_fail: needs_info
+    request: "A complete standard written order (beneficiary name or MBI, order date, item description, treating practitioner name or NPI)."
+    rules:
+      - {type: present, field: patient_name}
+      - {type: present, field: order_date}
+      - {type: present, field: item_ordered}
+      - {type: present, field: ordering_provider_name}
+
+  - id: mbi_format
+    type: pattern
+    field: medicare_id
+    # CMS MBI format: 11 characters, letters exclude S, L, O, I, B, Z.
+    regex: "[1-9][AC-HJKMNP-RT-Y][AC-HJKMNP-RT-Y0-9][0-9][AC-HJKMNP-RT-Y][AC-HJKMNP-RT-Y0-9][0-9][AC-HJKMNP-RT-Y]{2}[0-9]{2}"
+    source: checklist
+    cite: "Beneficiary information: Medicare Beneficiary Identifier"
+    on_fail: needs_info
+    request: "The patient's Medicare Beneficiary Identifier (MBI) as shown on their Medicare card."
+
+  - id: f2f_before_test
+    type: date_order
+    a: f2f_date
+    b: sleep_test_date
+    relation: before
+    source: lcd
+    cite: "Initial Coverage, criterion A: in-person clinical evaluation by the treating practitioner prior to the sleep test"
+    on_fail: needs_info
+    message: "The face-to-face evaluation is not dated before the sleep test."
+    request: "The treating practitioner's in-person clinical evaluation note dated before the sleep test (assessing OSA)."
+
+  - id: qualifying_sleep_test
+    type: any_of
+    source: lcd
+    cite: "Initial Coverage, criterion B; Sleep Tests (2-hour minimum event counts)"
+    on_fail: needs_info
+    request: "The complete sleep study report (AHI/RDI and total events), and if AHI/RDI is 5-14, clinical notes documenting a qualifying symptom or condition."
+    options:
+      - type: all_of
+        cite: "Criterion B.1: AHI or RDI >= 15 events/hour with a minimum of 30 events"
+        rules:
+          - {type: numeric, field: ahi_or_rdi, op: ">=", value: 15}
+          - {type: numeric, field: total_events, op: ">=", value: 30}
+      - type: all_of
+        cite: "Criterion B.2: AHI or RDI 5-14 events/hour with a minimum of 10 events, plus a documented condition"
+        rules:
+          - {type: numeric_range, field: ahi_or_rdi, min: 5, max: 14.99}
+          - {type: numeric, field: total_events, op: ">=", value: 10}
+          - type: llm_judgment
+            question: >-
+              Does the record document at least one of: excessive daytime sleepiness,
+              impaired cognition, mood disorder, insomnia, hypertension, ischemic heart
+              disease, or history of stroke?
+            require_quote: true
+            keywords: ["daytime sleepiness", "excessive sleepiness", "falls asleep", "dozing", "epworth",
+                       "impaired cognition", "memory", "concentration", "depression", "mood disorder", "anxiety",
+                       "insomnia", "hypertension", "high blood pressure", "htn", "ischemic heart disease",
+                       "coronary artery disease", "cad", "myocardial infarction", "stroke", "cva", "tia"]
+
+  - id: provider_active
+    type: external
+    check: npi_registry
+    field: ordering_npi
+    inputs: {name: ordering_provider_name}
+    source: sdr
+    cite: "Treating practitioner identified by name or NPI; NPPES NPI Registry lookup"
+    on_fail: human_review
+
+  - id: coverage_active
+    type: external
+    check: eligibility
+    inputs: {member_id: medicare_id, name: patient_name, dob: patient_dob}
+    source: checklist
+    cite: "Beneficiary eligibility on the date of service"
+    on_fail: human_review
+
+routing:
+  auto_ready_min_confidence: 0.95
+  unverifiable_below: 0.6
+  never_auto: [llm_judgment_failures]
+
+outreach:
+  template: missing_items_fax.md.j2
