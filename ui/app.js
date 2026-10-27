@@ -439,6 +439,7 @@ async function tryPack() {
     const res = await api("/packs/try", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ yaml: $("#yaml").value }) });
     const total = Object.values(res.counts).reduce((a, b) => a + b, 0);
     $("#try-out").innerHTML = `<h3 style="margin-top:14px">Against ${total} queued orders</h3>
+      <p class="muted" style="font-size:.82rem">${res.reextracted ? "The extraction schema changed, so each fax was re-read with local OCR." : "Rules re-run on the fields already read from each fax."}</p>
       <table class="grid"><tr><th>Route</th><th>Orders</th></tr>${ROUTE_ORDER.map((r) => `<tr><td>${ROUTE_LABEL[r]}</td><td>${res.counts[r]}</td></tr>`).join("")}</table>
       ${res.changed.length ? `<p class="muted" style="font-size:.86rem;margin-top:10px">${res.changed.length} order${res.changed.length === 1 ? "" : "s"} would change route:</p><ul class="diff-list">${res.changed.map((c) => `<li><a href="#/queue/${c.order_id}">${c.order_id}</a>: ${ROUTE_LABEL[c.before]} → ${ROUTE_LABEL[c.after]}</li>`).join("")}</ul>` : `<p class="muted" style="font-size:.86rem">No order changes route.</p>`}`;
   } catch (e) { $("#try-out").innerHTML = `<ul class="problems"><li>${esc(e.message)}</li></ul>`; }
