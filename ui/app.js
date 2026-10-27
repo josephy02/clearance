@@ -41,8 +41,10 @@ function toast(msg) {
 
 function go() {
   const [, tab = "queue", id] = location.hash.split("/");
-  document.querySelectorAll(".tabs a").forEach((a) => a.toggleAttribute("aria-current", a.dataset.tab === tab) || a.setAttribute("aria-current", a.dataset.tab === tab ? "page" : ""));
-  document.querySelectorAll(".tabs a").forEach((a) => { if (a.dataset.tab !== tab) a.removeAttribute("aria-current"); });
+  document.querySelectorAll(".tabs a").forEach((a) => {
+    if (a.dataset.tab === tab) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
   clearInterval(state.pollTimer);
   if (tab === "packs") return showPacks(id);
   if (tab === "results") return showResults();
@@ -68,7 +70,10 @@ async function showQueue(selected) {
   }
   if (selected) await showOrder(selected);
   else {
-    $(".fax").innerHTML = `<div class="empty"><p>No orders yet. Sample faxes are loading; or use <b>Add a fax</b> to process your own.</p></div>`;
+    const loading = state.seed?.state === "running";
+    $(".fax").innerHTML = `<div class="empty"><div><p>${loading ? "Loading the sample faxes. Orders appear on the left as they're processed." : "The queue is empty. Load the 60 synthetic sample faxes, or use <b>Add a fax</b> to process your own PDF."}</p>
+      ${loading ? "" : `<button class="btn primary" id="seed">Load sample faxes</button>`}</div></div>`;
+    $("#seed")?.addEventListener("click", async () => { await api("/demo/seed", { method: "POST" }); showQueue(null); });
     $(".findings").innerHTML = "";
   }
 }
@@ -76,6 +81,7 @@ async function showQueue(selected) {
 async function refreshQueue(selected) {
   const data = await api("/orders");
   state.orders = data.orders;
+  state.seed = data.seed;
   const q = $(".queue");
   if (!q) return;
   const groups = ROUTE_ORDER.map((r) => ({ r, items: data.orders.filter((o) => o.route === r && !o.review) }));
@@ -84,7 +90,11 @@ async function refreshQueue(selected) {
   if (data.seed?.state === "running") {
     html += `<div class="seeding">Loading sample faxes… ${data.seed.done} of ${data.seed.total}</div>`;
     clearInterval(state.pollTimer);
-    state.pollTimer = setInterval(() => refreshQueue(state.current?.decision?.order_id), 2500);
+    state.pollTimer = setInterval(async () => {
+      const had = state.orders.length;
+      await refreshQueue(state.current?.decision?.order_id);
+      if (!had && state.orders.length && !state.current) showQueue(null);
+    }, 2500);
   } else clearInterval(state.pollTimer);
   for (const g of groups) {
     html += `<section class="queue-group"><h3><span>${ROUTE_LABEL[g.r]}</span><span>${g.items.length}</span></h3>`;
