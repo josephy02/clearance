@@ -12,7 +12,7 @@ from datetime import date, timedelta
 
 from .pap import _letterhead, page_card, page_cover, page_extra
 from .people import CLINICS, Person, Practitioner, bad_npi, fmt_date
-from .render import H, Document
+from .render import Document, H
 
 PACK_ID = "medicare-oxygen-home"
 RULES = ["order_signed", "order_elements", "mbi_format", "qualifying_blood_gas",
@@ -36,7 +36,8 @@ PLAN = ([[]] * 8 + [["not_qualifying"]] * 2 + [["group2_with_condition"]] * 2
         + [["test_after_order"]] + [["not_room_air"]] + [["unsigned_order"]] + [["invalid_npi"]])
 
 EDEMA = [
-    "Exam notable for 2+ pitting edema of both ankles; echo last year suggested right heart strain.",
+    "Exam notable for 2+ pitting edema of both ankles; echo last year suggested right heart "
+    "strain.",
     "Echocardiogram 2025 showed moderate pulmonary hypertension (RVSP 52 mm Hg).",
 ]
 NO_EDEMA = "No peripheral edema. Heart regular, no murmurs. No history of heart failure."

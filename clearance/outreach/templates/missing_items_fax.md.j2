@@ -5,12 +5,14 @@
 **Date:** {{ today }}
 **Re:** {{ patient }}{% if dob %} · DOB {{ dob }}{% endif %}{% if member_id %} · MBI {{ member_id }}{% endif %}
 
+
 Thank you for the referral for **{{ item.name }}** ({{ item.hcpcs | join(", ") }}).
 Before we can dispense, Medicare requires the following. Please fax these back at your earliest convenience:
 
 {% for f in findings %}
 {{ loop.index }}. **{{ f.request }}**
    _Why:_ {{ f.why }}{% if f.source %} _(per {{ f.source }}{% if f.cite %}, {{ f.cite }}{% endif %})_{% endif %}
+
 
 {% endfor %}
 This request is about documentation only; it is not a coverage decision.
