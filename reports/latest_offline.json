@@ -1,0 +1,1307 @@
+{
+  "date": "2026-10-26",
+  "mode": "offline",
+  "suites": {
+    "pap": {
+      "pack_id": "medicare-pap-osa-initial",
+      "pack_version": "1.0.0",
+      "orders": 40,
+      "threshold": 0.92,
+      "models": {
+        "extractor": "ocr-rules",
+        "judge": "offline-keyword"
+      },
+      "field_accuracy": 0.9884615384615385,
+      "field_accuracy_by_level": {
+        "clean": 0.9935897435897436,
+        "heavy": 0.9948717948717949,
+        "light": 0.9763313609467456
+      },
+      "field_accuracy_by_field": {
+        "patient_name": 1.0,
+        "patient_dob": 1.0,
+        "medicare_id": 1.0,
+        "ordering_provider_name": 1.0,
+        "ordering_npi": 1.0,
+        "item_ordered": 1.0,
+        "order_date": 1.0,
+        "order_signed": 0.975,
+        "f2f_date": 1.0,
+        "sleep_test_date": 1.0,
+        "sleep_test_type": 0.875,
+        "ahi_or_rdi": 1.0,
+        "total_events": 1.0
+      },
+      "page_classification_accuracy": 1.0,
+      "rules": {
+        "order_signed": {
+          "tp": 4,
+          "fp": 1,
+          "fn": 0,
+          "tn": 35,
+          "precision": 0.8,
+          "recall": 1.0
+        },
+        "order_elements": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 40,
+          "precision": null,
+          "recall": null
+        },
+        "mbi_format": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 40,
+          "precision": null,
+          "recall": null
+        },
+        "f2f_before_test": {
+          "tp": 7,
+          "fp": 0,
+          "fn": 0,
+          "tn": 33,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "qualifying_sleep_test": {
+          "tp": 8,
+          "fp": 1,
+          "fn": 0,
+          "tn": 31,
+          "precision": 0.8888888888888888,
+          "recall": 1.0
+        },
+        "provider_active": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "tn": 37,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "coverage_active": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "tn": 37,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "defect_recall": 1.0,
+      "routing_accuracy": 0.825,
+      "confusion": {
+        "ready": {
+          "ready": 13,
+          "needs_info": 0,
+          "human_review": 7
+        },
+        "needs_info": {
+          "ready": 0,
+          "needs_info": 9,
+          "human_review": 0
+        },
+        "human_review": {
+          "ready": 0,
+          "needs_info": 0,
+          "human_review": 11
+        }
+      },
+      "unsafe_ready": [],
+      "missed_needs_info": [],
+      "sweep": [
+        {
+          "threshold": 0.8,
+          "auto_rate": 0.475,
+          "error_rate": 0.0,
+          "ready_recall": 0.95,
+          "auto": 19,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.81,
+          "auto_rate": 0.475,
+          "error_rate": 0.0,
+          "ready_recall": 0.95,
+          "auto": 19,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.82,
+          "auto_rate": 0.45,
+          "error_rate": 0.0,
+          "ready_recall": 0.9,
+          "auto": 18,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.83,
+          "auto_rate": 0.45,
+          "error_rate": 0.0,
+          "ready_recall": 0.9,
+          "auto": 18,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.84,
+          "auto_rate": 0.45,
+          "error_rate": 0.0,
+          "ready_recall": 0.9,
+          "auto": 18,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.85,
+          "auto_rate": 0.45,
+          "error_rate": 0.0,
+          "ready_recall": 0.9,
+          "auto": 18,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.86,
+          "auto_rate": 0.45,
+          "error_rate": 0.0,
+          "ready_recall": 0.9,
+          "auto": 18,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.87,
+          "auto_rate": 0.45,
+          "error_rate": 0.0,
+          "ready_recall": 0.9,
+          "auto": 18,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.88,
+          "auto_rate": 0.45,
+          "error_rate": 0.0,
+          "ready_recall": 0.9,
+          "auto": 18,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.89,
+          "auto_rate": 0.45,
+          "error_rate": 0.0,
+          "ready_recall": 0.9,
+          "auto": 18,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.9,
+          "auto_rate": 0.375,
+          "error_rate": 0.0,
+          "ready_recall": 0.75,
+          "auto": 15,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.91,
+          "auto_rate": 0.375,
+          "error_rate": 0.0,
+          "ready_recall": 0.75,
+          "auto": 15,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.92,
+          "auto_rate": 0.325,
+          "error_rate": 0.0,
+          "ready_recall": 0.65,
+          "auto": 13,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.93,
+          "auto_rate": 0.275,
+          "error_rate": 0.0,
+          "ready_recall": 0.55,
+          "auto": 11,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.94,
+          "auto_rate": 0.225,
+          "error_rate": 0.0,
+          "ready_recall": 0.45,
+          "auto": 9,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.95,
+          "auto_rate": 0.15,
+          "error_rate": 0.0,
+          "ready_recall": 0.3,
+          "auto": 6,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.96,
+          "auto_rate": 0.075,
+          "error_rate": 0.0,
+          "ready_recall": 0.15,
+          "auto": 3,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.97,
+          "auto_rate": 0.025,
+          "error_rate": 0.0,
+          "ready_recall": 0.05,
+          "auto": 1,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.98,
+          "auto_rate": 0.0,
+          "error_rate": 0.0,
+          "ready_recall": 0.0,
+          "auto": 0,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.99,
+          "auto_rate": 0.0,
+          "error_rate": 0.0,
+          "ready_recall": 0.0,
+          "auto": 0,
+          "wrong": 0
+        }
+      ],
+      "llm_judgments": {
+        "no": 6,
+        "yes": 6,
+        "null": 3
+      },
+      "quotes": 6,
+      "quote_validity": 1.0,
+      "latency_p50_s": 0.05395302051329054,
+      "latency_p95_s": 0.06527129100868478,
+      "cost_per_order_usd": 0.0,
+      "per_order": [
+        {
+          "order_id": "pap-001",
+          "defects": [],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.958,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-002",
+          "defects": [
+            "unsigned_order",
+            "f2f_after_test"
+          ],
+          "degradation": "light",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.957,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-003",
+          "defects": [
+            "eligibility_inactive"
+          ],
+          "degradation": "heavy",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.898,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-004",
+          "defects": [],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.896,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-005",
+          "defects": [
+            "mild_no_symptom"
+          ],
+          "degradation": "light",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.915,
+          "field_errors": [
+            "sleep_test_type"
+          ],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-006",
+          "defects": [],
+          "degradation": "heavy",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.917,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-007",
+          "defects": [
+            "eligibility_inactive",
+            "unsigned_order"
+          ],
+          "degradation": "clean",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.719,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-008",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.921,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-009",
+          "defects": [],
+          "degradation": "heavy",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.963,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-010",
+          "defects": [],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.899,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-011",
+          "defects": [
+            "unsigned_order"
+          ],
+          "degradation": "light",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.941,
+          "field_errors": [
+            "sleep_test_type"
+          ],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-012",
+          "defects": [
+            "invalid_npi"
+          ],
+          "degradation": "heavy",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.967,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-013",
+          "defects": [
+            "illegible_ahi"
+          ],
+          "degradation": "heavy",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.905,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-014",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.966,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-015",
+          "defects": [
+            "f2f_after_test"
+          ],
+          "degradation": "heavy",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.907,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-016",
+          "defects": [],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.928,
+          "field_errors": [
+            "sleep_test_type"
+          ],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-017",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.954,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-018",
+          "defects": [
+            "missing_sleep_study"
+          ],
+          "degradation": "heavy",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.967,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-019",
+          "defects": [
+            "invalid_npi"
+          ],
+          "degradation": "clean",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.952,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-020",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.951,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-021",
+          "defects": [],
+          "degradation": "heavy",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.946,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-022",
+          "defects": [
+            "illegible_ahi"
+          ],
+          "degradation": "heavy",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.936,
+          "field_errors": [
+            "order_signed"
+          ],
+          "rule_mismatches": [
+            {
+              "rule": "order_signed",
+              "want": "pass",
+              "got": "fail"
+            }
+          ]
+        },
+        {
+          "order_id": "pap-023",
+          "defects": [
+            "f2f_after_test"
+          ],
+          "degradation": "light",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.946,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-024",
+          "defects": [],
+          "degradation": "heavy",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.936,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-025",
+          "defects": [
+            "f2f_after_test"
+          ],
+          "degradation": "clean",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.94,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-026",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.932,
+          "field_errors": [
+            "sleep_test_type"
+          ],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-027",
+          "defects": [],
+          "degradation": "heavy",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.892,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-028",
+          "defects": [
+            "mild_buried_symptom"
+          ],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.815,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-029",
+          "defects": [
+            "mild_buried_symptom"
+          ],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.943,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-030",
+          "defects": [],
+          "degradation": "heavy",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.91,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-031",
+          "defects": [
+            "mild_buried_symptom"
+          ],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.938,
+          "field_errors": [],
+          "rule_mismatches": [
+            {
+              "rule": "qualifying_sleep_test",
+              "want": "pass",
+              "got": "fail"
+            }
+          ]
+        },
+        {
+          "order_id": "pap-032",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.97,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-033",
+          "defects": [
+            "mild_no_symptom"
+          ],
+          "degradation": "heavy",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.913,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-034",
+          "defects": [
+            "mild_buried_symptom"
+          ],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.94,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-035",
+          "defects": [
+            "eligibility_inactive"
+          ],
+          "degradation": "light",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.93,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-036",
+          "defects": [
+            "missing_sleep_study"
+          ],
+          "degradation": "heavy",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.978,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-037",
+          "defects": [
+            "mild_no_symptom"
+          ],
+          "degradation": "clean",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.959,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-038",
+          "defects": [
+            "unsigned_order"
+          ],
+          "degradation": "light",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.935,
+          "field_errors": [
+            "sleep_test_type"
+          ],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-039",
+          "defects": [
+            "inactive_npi"
+          ],
+          "degradation": "heavy",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.947,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "pap-040",
+          "defects": [
+            "missing_sleep_study"
+          ],
+          "degradation": "clean",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.965,
+          "field_errors": [],
+          "rule_mismatches": []
+        }
+      ]
+    },
+    "oxygen": {
+      "pack_id": "medicare-oxygen-home",
+      "pack_version": "1.0.0",
+      "orders": 20,
+      "threshold": 0.92,
+      "models": {
+        "extractor": "ocr-rules",
+        "judge": "offline-keyword"
+      },
+      "field_accuracy": 0.990625,
+      "field_accuracy_by_level": {
+        "clean": 0.9821428571428571,
+        "heavy": 1.0,
+        "light": 0.9910714285714286
+      },
+      "field_accuracy_by_field": {
+        "patient_name": 1.0,
+        "patient_dob": 1.0,
+        "medicare_id": 1.0,
+        "ordering_provider_name": 1.0,
+        "ordering_npi": 1.0,
+        "item_ordered": 0.95,
+        "order_date": 1.0,
+        "order_signed": 1.0,
+        "test_date": 1.0,
+        "test_condition": 1.0,
+        "on_room_air": 1.0,
+        "spo2": 1.0,
+        "po2": 1.0,
+        "baseline_spo2": 1.0,
+        "test_performer": 0.9,
+        "hematocrit": 1.0
+      },
+      "page_classification_accuracy": 1.0,
+      "rules": {
+        "order_signed": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 19,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "order_elements": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0,
+          "tn": 19,
+          "precision": 0.0,
+          "recall": null
+        },
+        "mbi_format": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 20,
+          "precision": null,
+          "recall": null
+        },
+        "qualifying_blood_gas": {
+          "tp": 5,
+          "fp": 1,
+          "fn": 0,
+          "tn": 14,
+          "precision": 0.8333333333333334,
+          "recall": 1.0
+        },
+        "qualified_tester": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "tn": 17,
+          "precision": 0.6666666666666666,
+          "recall": 1.0
+        },
+        "test_before_order": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 19,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "provider_active": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 19,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "coverage_active": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 20,
+          "precision": null,
+          "recall": null
+        }
+      },
+      "defect_recall": 1.0,
+      "routing_accuracy": 0.85,
+      "confusion": {
+        "ready": {
+          "ready": 7,
+          "needs_info": 1,
+          "human_review": 2
+        },
+        "needs_info": {
+          "ready": 0,
+          "needs_info": 7,
+          "human_review": 0
+        },
+        "human_review": {
+          "ready": 0,
+          "needs_info": 0,
+          "human_review": 3
+        }
+      },
+      "unsafe_ready": [],
+      "missed_needs_info": [],
+      "sweep": [
+        {
+          "threshold": 0.8,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.81,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.82,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.83,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.84,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.85,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.86,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.87,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.88,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.89,
+          "auto_rate": 0.4,
+          "error_rate": 0.0,
+          "ready_recall": 0.8,
+          "auto": 8,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.9,
+          "auto_rate": 0.35,
+          "error_rate": 0.0,
+          "ready_recall": 0.7,
+          "auto": 7,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.91,
+          "auto_rate": 0.35,
+          "error_rate": 0.0,
+          "ready_recall": 0.7,
+          "auto": 7,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.92,
+          "auto_rate": 0.35,
+          "error_rate": 0.0,
+          "ready_recall": 0.7,
+          "auto": 7,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.93,
+          "auto_rate": 0.35,
+          "error_rate": 0.0,
+          "ready_recall": 0.7,
+          "auto": 7,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.94,
+          "auto_rate": 0.15,
+          "error_rate": 0.0,
+          "ready_recall": 0.3,
+          "auto": 3,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.95,
+          "auto_rate": 0.0,
+          "error_rate": 0.0,
+          "ready_recall": 0.0,
+          "auto": 0,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.96,
+          "auto_rate": 0.0,
+          "error_rate": 0.0,
+          "ready_recall": 0.0,
+          "auto": 0,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.97,
+          "auto_rate": 0.0,
+          "error_rate": 0.0,
+          "ready_recall": 0.0,
+          "auto": 0,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.98,
+          "auto_rate": 0.0,
+          "error_rate": 0.0,
+          "ready_recall": 0.0,
+          "auto": 0,
+          "wrong": 0
+        },
+        {
+          "threshold": 0.99,
+          "auto_rate": 0.0,
+          "error_rate": 0.0,
+          "ready_recall": 0.0,
+          "auto": 0,
+          "wrong": 0
+        }
+      ],
+      "llm_judgments": {
+        "no": 3,
+        "yes": 1
+      },
+      "quotes": 1,
+      "quote_validity": 1.0,
+      "latency_p50_s": 0.05495610399520956,
+      "latency_p95_s": 0.0630328330444172,
+      "cost_per_order_usd": 0.0,
+      "per_order": [
+        {
+          "order_id": "oxy-001",
+          "defects": [
+            "invalid_npi"
+          ],
+          "degradation": "clean",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.924,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-002",
+          "defects": [
+            "tested_by_supplier"
+          ],
+          "degradation": "light",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.916,
+          "field_errors": [
+            "test_performer"
+          ],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-003",
+          "defects": [
+            "not_room_air"
+          ],
+          "degradation": "heavy",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.923,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-004",
+          "defects": [
+            "test_after_order"
+          ],
+          "degradation": "clean",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.924,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-005",
+          "defects": [
+            "not_qualifying"
+          ],
+          "degradation": "light",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.944,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-006",
+          "defects": [
+            "group2_no_condition"
+          ],
+          "degradation": "heavy",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.935,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-007",
+          "defects": [],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.931,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-008",
+          "defects": [
+            "tested_by_supplier"
+          ],
+          "degradation": "light",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.899,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-009",
+          "defects": [
+            "group2_with_condition"
+          ],
+          "degradation": "heavy",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.931,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-010",
+          "defects": [
+            "not_qualifying"
+          ],
+          "degradation": "clean",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.865,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-011",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.946,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-012",
+          "defects": [],
+          "degradation": "heavy",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.946,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-013",
+          "defects": [],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "needs_info",
+          "min_confidence": 0.929,
+          "field_errors": [
+            "item_ordered"
+          ],
+          "rule_mismatches": [
+            {
+              "rule": "order_elements",
+              "want": "pass",
+              "got": "fail"
+            }
+          ]
+        },
+        {
+          "order_id": "oxy-014",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.89,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-015",
+          "defects": [
+            "unsigned_order"
+          ],
+          "degradation": "heavy",
+          "want": "needs_info",
+          "got": "needs_info",
+          "min_confidence": 0.894,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-016",
+          "defects": [],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.933,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-017",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.93,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-018",
+          "defects": [
+            "group2_no_condition"
+          ],
+          "degradation": "heavy",
+          "want": "human_review",
+          "got": "human_review",
+          "min_confidence": 0.884,
+          "field_errors": [],
+          "rule_mismatches": []
+        },
+        {
+          "order_id": "oxy-019",
+          "defects": [
+            "group2_with_condition"
+          ],
+          "degradation": "clean",
+          "want": "ready",
+          "got": "human_review",
+          "min_confidence": 0.903,
+          "field_errors": [
+            "test_performer"
+          ],
+          "rule_mismatches": [
+            {
+              "rule": "qualifying_blood_gas",
+              "want": "pass",
+              "got": "fail"
+            },
+            {
+              "rule": "qualified_tester",
+              "want": "pass",
+              "got": "fail"
+            }
+          ]
+        },
+        {
+          "order_id": "oxy-020",
+          "defects": [],
+          "degradation": "light",
+          "want": "ready",
+          "got": "ready",
+          "min_confidence": 0.942,
+          "field_errors": [],
+          "rule_mismatches": []
+        }
+      ]
+    }
+  }
+}

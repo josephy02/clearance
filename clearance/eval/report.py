@@ -17,15 +17,15 @@ def render_chart(m: dict, path: Path) -> Path:
     xs = [s["threshold"] for s in m["sweep"]]
     auto = [100 * s["auto_rate"] for s in m["sweep"]]
     err = [100 * s["error_rate"] for s in m["sweep"]]
-    fig, ax = plt.subplots(figsize=(7.2, 3.9), dpi=150)
+    fig, ax = plt.subplots(figsize=(7.2, 4.2), dpi=150)
     fig.patch.set_facecolor(SURFACE)
     ax.set_facecolor(SURFACE)
     ax.plot(xs, auto, color=BLUE, lw=2, marker="o", ms=4, label="Auto-routed READY (% of orders)")
     ax.plot(xs, err, color=ORANGE, lw=2, marker="o", ms=4,
             label="Wrong among auto-routed (% of READY)")
     ax.axvline(m["threshold"], color=MUTED, lw=1, ls="--")
-    ax.text(m["threshold"], 101, f" pack default {m['threshold']:.2f}", color=MUTED,
-            fontsize=8, va="bottom")
+    ax.text(m["threshold"], 90, f" pack bar {m['threshold']:.2f}", color=MUTED, fontsize=8,
+            va="center", ha="left")
     ax.annotate(f"{auto[-1]:.0f}%", (xs[-1], auto[-1]), xytext=(6, 0),
                 textcoords="offset points", color=INK, fontsize=8, va="center")
     ax.annotate(f"{auto[0]:.0f}%", (xs[0], auto[0]), xytext=(-6, 0), ha="right",
@@ -34,14 +34,15 @@ def render_chart(m: dict, path: Path) -> Path:
     ax.set_xlabel("auto_ready_min_confidence", color=MUTED, fontsize=9)
     ax.set_ylabel("%", color=MUTED, fontsize=9)
     ax.set_title(f"{m['pack_id']}: automation vs. error ({m['orders']} synthetic orders)",
-                 color=INK, fontsize=10, loc="left")
+                 color=INK, fontsize=10, loc="left", pad=12)
     ax.grid(axis="y", color=GRID, lw=0.8)
     for side in ("top", "right"):
         ax.spines[side].set_visible(False)
     for side in ("left", "bottom"):
         ax.spines[side].set_color(GRID)
     ax.tick_params(colors=MUTED, labelsize=8)
-    ax.legend(frameon=False, fontsize=8, loc="center left", labelcolor=INK)
+    ax.legend(frameon=False, fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.2),
+              ncol=2, labelcolor=INK)
     fig.tight_layout()
     fig.savefig(path, facecolor=SURFACE)
     plt.close(fig)
