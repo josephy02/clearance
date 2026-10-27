@@ -158,7 +158,8 @@ rules:
     on_fail: human_review
 
 routing:
-  auto_ready_min_confidence: 0.95
+  # Calibrated on the eval sweep: the lowest bar with zero defective orders auto-routed.
+  auto_ready_min_confidence: 0.92
   unverifiable_below: 0.6
   never_auto: [llm_judgment_failures]
 

@@ -161,3 +161,17 @@ def test_npi_helpers():
     assert names_match("Dr. Dana Whitfield, MD", "Dana Whitfield")
     assert names_match("D. Whitfield", "Dana Whitfield")
     assert not names_match("Dana Smith", "Dana Whitfield")
+
+
+def test_keyword_judge_keeps_negation_across_ocr_period(pap, ctx_factory):
+    note = "Mood is good and cognition intact. No. history of hypertension, heart disease, o1 stroke."
+    ex = make_extraction({"ahi_or_rdi": 9.2, "total_events": 48}, note=note)
+    results = by_id(evaluate_all(ctx_factory(ex)))
+    assert results["qualifying_sleep_test"].outcome == Outcome.FAIL
+
+
+def test_keyword_judge_matches_whole_words(pap, ctx_factory):
+    ex = make_extraction({"ahi_or_rdi": 9.2, "total_events": 48},
+                         note="Faxed to Cascade Sleep & Respiratory.")
+    results = by_id(evaluate_all(ctx_factory(ex)))
+    assert results["qualifying_sleep_test"].outcome == Outcome.FAIL

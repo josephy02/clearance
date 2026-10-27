@@ -83,12 +83,14 @@ class KeywordJudge:
     tests, and UI behave identically without an API key.
     """
 
+    spent_usd = 0.0
+
     model = "offline-keyword"
 
     def ask(self, question: str, extraction: Extraction, keywords: list[str]) -> Judgment:
         for page in extraction.pages:
             # OCR wraps lines mid-sentence; negation scope is the sentence, not the line.
-            for sentence in _SENTENCE.split(" ".join(ln.text for ln in page.lines)):
+            for sentence in sentences(" ".join(ln.text for ln in page.lines)):
                 low = sentence.lower()
                 hit = next((k for k in keywords
                             if re.search(rf"\b{re.escape(k.lower())}\b", low)), None)
@@ -99,6 +101,23 @@ class KeywordJudge:
         reply = {"answer": "no", "quote": "", "confidence": 0.8,
                  "explanation": "No sentence in the packet mentions a qualifying term."}
         return guard(json.dumps(reply), extraction, self.model)
+
+
+def sentences(text: str) -> list[str]:
+    """Split on sentence ends, but re-attach one-word fragments: fax speckle turns
+    "No history of..." into "No. history of...", which must not lose its negation."""
+    out: list[str] = []
+    carry = ""
+    for part in _SENTENCE.split(text):
+        part = f"{carry} {part}".strip() if carry else part
+        if len(part.split()) <= 1:
+            carry = part
+            continue
+        carry = ""
+        out.append(part)
+    if carry:
+        out.append(carry)
+    return out
 
 
 _NEGATIONS = re.compile(r"\b(denies|denied|no|not|negative for|without|never)\b")
@@ -140,6 +159,8 @@ JUDGMENT_SCHEMA = {
 }
 
 DEFAULT_MODEL = "claude-opus-5-5"
+PRICES = {"claude-opus-5-5": (4.0, 20.0), "claude-sonnet-5-5": (2.0, 10.0),
+          "claude-haiku-5-5": (0.10, 0.50)}       # $ per million tokens (input, output)
 
 
 class ClaudeJudge:
@@ -148,6 +169,7 @@ class ClaudeJudge:
 
         self.model = model or os.environ.get("CLEARANCE_MODEL") or DEFAULT_MODEL
         self._client = client or anthropic.Anthropic()
+        self.spent_usd = 0.0
 
     def ask(self, question: str, extraction: Extraction, keywords: list[str]) -> Judgment:
         prompt = _PROMPT.format(question=question, record=extraction.record_text())
@@ -159,6 +181,9 @@ class ClaudeJudge:
                 messages=[{"role": "user", "content": prompt}],
             )
             raw = "".join(b.text for b in msg.content if b.type == "text")
+            price_in, price_out = PRICES.get(self.model, (0.0, 0.0))
+            self.spent_usd += (msg.usage.input_tokens * price_in
+                               + msg.usage.output_tokens * price_out) / 1e6
         except Exception as err:  # network/API failure is a missing measurement
             return Judgment("unclear", "", None, 0.0, f"Model call failed: {err}", False,
                             self.model)

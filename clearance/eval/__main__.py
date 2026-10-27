@@ -22,6 +22,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--suite", action="append", help="pap, oxygen (default: all present)")
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--no-store", action="store_true",
+                    help="don't load the scored orders into the review UI's queue")
     ap.add_argument("--live-nppes", action="store_true",
                     help="let unknown NPIs fall through to the live NPI Registry")
     args = ap.parse_args()
@@ -33,7 +35,7 @@ def main() -> None:
     results = {}
     for suite in suites:
         print(f"evaluating {suite} ...", flush=True)
-        results[suite] = evaluate(suite, pipeline, args.limit)
+        results[suite] = evaluate(suite, pipeline, args.limit, store_orders=not args.no_store)
         m = results[suite]
         print(f"  fields {m['field_accuracy']:.1%}  routes {m['routing_accuracy']:.1%}  "
               f"defect recall {m['defect_recall']:.1%}  unsafe READY {len(m['unsafe_ready'])}")

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>clearance · intake review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/ui/app.css">
+</head>
+<body>
+  <header class="bar">
+    <a class="wordmark" href="#/queue" aria-label="clearance home">clearance</a>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#/queue" data-tab="queue">Queue</a>
+      <a href="#/packs" data-tab="packs">Criteria packs</a>
+      <a href="#/results" data-tab="results">Results</a>
+    </nav>
+    <span class="synthetic" title="Every patient, provider, and order here is generated test data.">Synthetic data only</span>
+    <button class="btn primary" id="add-fax">Add a fax</button>
+  </header>
+
+  <main id="view"></main>
+
+  <dialog id="upload">
+    <form method="dialog" id="upload-form">
+      <h2>Add a fax</h2>
+      <p class="muted">Upload a referral packet as a PDF. It's processed with the pack you pick and lands in the queue.</p>
+      <label class="field">Packet (PDF)
+        <input type="file" name="file" accept="application/pdf" required>
+      </label>
+      <label class="field">Criteria pack
+        <select name="pack_id" id="upload-pack"></select>
+      </label>
+      <p class="error" id="upload-error" hidden></p>
+      <div class="actions">
+        <button class="btn" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn primary" id="upload-go" value="go">Process fax</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/ui/app.js" type="module"></script>
+</body>
+</html>

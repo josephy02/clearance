@@ -56,6 +56,10 @@ class Pipeline:
         self.eligibility = eligibility or default_eligibility()
         self.extractor = extractor or default_extractor()
 
+    def spent(self) -> float:
+        return (getattr(self.judge, "spent_usd", 0.0)
+                + getattr(self.extractor, "spent_usd", 0.0))
+
     def extract(self, pdf: Path, pack: Pack) -> tuple[Extraction, dict[str, float]]:
         t0 = time.perf_counter()
         pages, images = ocr_pdf(pdf)
@@ -70,10 +74,12 @@ class Pipeline:
         from .outreach.render import missing_items, render_outreach
 
         t0 = time.perf_counter()
+        spent = self.spent()
         ctx = EvalContext(pack, extraction, self.judge, self.provider, self.eligibility)
         results = evaluate_all(ctx)
         routing = route(pack, results, threshold)
-        timings = {**(timings or {}), "rules_s": time.perf_counter() - t0}
+        timings = {**(timings or {}), "rules_s": time.perf_counter() - t0,
+                   "cost_usd": self.spent() - spent}
         decision = Decision(
             order_id=order_id or uuid.uuid4().hex[:10], pack_id=pack.pack_id,
             pack_version=pack.version, route=routing.route, reasons=routing.reasons,
@@ -90,5 +96,9 @@ class Pipeline:
 
     def run(self, pdf: Path, pack: Pack, order_id: str | None = None,
             threshold: float | None = None) -> Decision:
+        before = self.spent()
         extraction, timings = self.extract(pdf, pack)
-        return self.decide(pack, extraction, order_id, threshold, timings, str(pdf))
+        timings["extract_cost_usd"] = self.spent() - before
+        decision = self.decide(pack, extraction, order_id, threshold, timings, str(pdf))
+        decision.timings["cost_usd"] += timings["extract_cost_usd"]
+        return decision

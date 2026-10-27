@@ -24,10 +24,6 @@ GROUND_TRUTH = ROOT / "data" / "ground_truth"
 ROUTES = ["ready", "needs_info", "human_review"]
 SWEEP = [round(0.80 + 0.01 * i, 2) for i in range(20)]
 
-# $ per million tokens (input, output) for cost reporting.
-PRICES = {"claude-opus-5-5": (4.0, 20.0), "claude-sonnet-5-5": (2.0, 10.0),
-          "claude-haiku-5-5": (0.10, 0.50)}
-
 
 @dataclass
 class OrderResult:
@@ -202,6 +198,17 @@ def available_suites() -> list[str]:
     return [k for k in SUITES if (FIXTURES / k).exists() and any((FIXTURES / k).glob("*.pdf"))]
 
 
-def evaluate(kind: str, pipeline: Pipeline, limit: int | None = None) -> dict:
+def evaluate(kind: str, pipeline: Pipeline, limit: int | None = None,
+             store_orders: bool = False) -> dict:
     pack = load_pack(SUITES[kind])
-    return metrics(pack, run_orders(pack, kind, pipeline, limit))
+    results = run_orders(pack, kind, pipeline, limit)
+    if store_orders:      # the review UI's queue reuses these decisions: no second model bill
+        from ..api import store
+
+        for r in results:
+            store.save_packet(r.order_id, FIXTURES / kind / f"{r.order_id}.pdf")
+            store.save_decision(r.decision)
+            store.audit("decision", r.order_id, route=r.decision.route,
+                        pack=f"{pack.pack_id}@{pack.version}", models=r.decision.models,
+                        source=f"fixtures/{kind}/{r.order_id}.pdf")
+    return metrics(pack, results)
