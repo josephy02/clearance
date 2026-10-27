@@ -294,7 +294,7 @@ table.fields input { font: inherit; width: 100%; padding: 2px 4px; border: 1px s
 .sweep { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; margin-top: 8px; }
 .sweep svg { width: 100%; height: auto; overflow: visible; }
 .sweep .readout { font-size: 0.9rem; }
-.sweep .readout b { font-size: 1.6rem; display: block; line-height: 1.1; }
+.sweep .readout label b { font-size: 1.6rem; display: block; line-height: 1.1; }
 .sweep input[type="range"] { width: 100%; accent-color: var(--action); }
 .legend { display: flex; gap: 14px; font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
 .legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
@@ -303,6 +303,10 @@ table.grid th, table.grid td { padding: 6px 8px; border-bottom: 1px solid var(--
 table.grid th:first-child, table.grid td:first-child { text-align: left; }
 table.grid th { color: var(--muted); font-weight: 600; }
 table.grid td.hit { font-weight: 700; }
+.modes { display: inline-flex; border: 1px solid var(--rule); border-radius: var(--r-sm); overflow: hidden; margin-top: 10px; }
+.modes button { font: inherit; font-size: 0.86rem; border: 0; background: var(--surface); color: var(--muted); padding: 6px 12px; cursor: pointer; }
+.modes button + button { border-left: 1px solid var(--rule); }
+.modes button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 18px; }
 
 dialog { border: 1px solid var(--rule); border-radius: var(--r-md); padding: 22px 24px; background: var(--surface); color: var(--ink); width: min(440px, 92vw); }

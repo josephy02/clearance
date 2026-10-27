@@ -272,9 +272,16 @@ def try_pack(draft: PackDraft, limit: int = 60):
 
 # --- results, lookups, demo data ------------------------------------------------------------
 
+@app.get("/eval/modes")
+def eval_modes():
+    found = sorted(p.stem.removeprefix("latest_") for p in (ROOT / "reports").glob("latest_*.json"))
+    return {"modes": found}
+
+
 @app.get("/eval")
-def get_eval():
-    p = ROOT / "reports" / "latest.json"
+def get_eval(mode: str | None = None):
+    name = f"latest_{mode}.json" if mode in eval_modes()["modes"] else "latest.json"
+    p = ROOT / "reports" / name
     if not p.exists():
         raise HTTPException(404, "No eval yet. Run `make eval`.")
     return JSONResponse(json.loads(p.read_text()))

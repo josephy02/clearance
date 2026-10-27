@@ -47,7 +47,7 @@ function go() {
   });
   clearInterval(state.pollTimer);
   if (tab === "packs") return showPacks(id);
-  if (tab === "results") return showResults();
+  if (tab === "results") return showResults(id);
   return showQueue(id ? decodeURIComponent(id) : null);
 }
 window.addEventListener("hashchange", go);
@@ -449,13 +449,21 @@ async function tryPack() {
 
 // --- results ---------------------------------------------------------------------------------
 
-async function showResults() {
-  let data;
-  try { data = await api("/eval"); }
-  catch { view.innerHTML = `<div class="results"><h2>No results yet</h2><p>Run <code>make eval</code> to score the pipeline against the synthetic ground truth.</p></div>`; return; }
+const MODE_LABEL = { claude: "Claude + local OCR", offline: "Local OCR only, no API key" };
+
+async function showResults(mode) {
+  let data, modes;
+  try {
+    modes = (await api("/eval/modes")).modes;
+    mode = mode || state.evalMode || (modes.includes("claude") ? "claude" : modes[0]);
+    data = await api(`/eval?mode=${mode}`);
+  } catch { view.innerHTML = `<div class="results"><h2>No results yet</h2><p>Run <code>make eval</code> to score the pipeline against the synthetic ground truth.</p></div>`; return; }
+  state.evalMode = mode;
   view.innerHTML = `<div class="results"><h1 style="font-size:1.6rem">How well it works</h1>
     <p>Scored against ${Object.values(data.suites).reduce((a, s) => a + s.orders, 0)} synthetic faxed orders with planted defects (${esc(data.date)}). Expected outcomes come from the generator, not the engine.</p>
+    ${modes.length > 1 ? `<div class="modes" role="group" aria-label="Pipeline mode">${modes.map((m) => `<button data-mode="${m}" aria-pressed="${m === mode}">${MODE_LABEL[m] || m}</button>`).join("")}</div>` : ""}
     ${Object.entries(data.suites).map(([k, s]) => suiteHtml(k, s)).join("")}</div>`;
+  view.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => showResults(b.dataset.mode)));
   for (const [k, s] of Object.entries(data.suites)) wireSweep(k, s);
 }
 
