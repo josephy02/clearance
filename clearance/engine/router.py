@@ -22,14 +22,14 @@ class Routing:
 
 
 def used_confidences(results: list[RuleResult]) -> list[float]:
-    """Confidence of every extracted field read by a non-skipped rule."""
+    """Confidence of every field actually read (not missing) by a non-skipped rule."""
     out = []
     for top in results:
         for node in top.walk():
             if node.outcome == Outcome.SKIPPED or node.type == "llm_judgment":
                 continue
             out.extend(e.confidence for e in node.evidence
-                       if e.field and e.confidence is not None)
+                       if e.field and e.confidence is not None and e.value is not None)
     return out
 
 

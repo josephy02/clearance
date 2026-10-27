@@ -175,3 +175,11 @@ def test_keyword_judge_matches_whole_words(pap, ctx_factory):
                          note="Faxed to Cascade Sleep & Respiratory.")
     results = by_id(evaluate_all(ctx_factory(ex)))
     assert results["qualifying_sleep_test"].outcome == Outcome.FAIL
+
+
+def test_missing_optional_field_does_not_block_ready(pap, ctx_factory):
+    from clearance.engine.router import used_confidences
+
+    ex = make_extraction({"total_events": None})
+    results = evaluate_all(ctx_factory(ex))
+    assert 0.0 not in used_confidences(results)
