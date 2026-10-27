@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - run: uv sync
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+
+  eval:
+    runs-on: ubuntu-latest
+    needs: test
+    env:
+      CLEARANCE_EXTRACTOR: ocr       # offline: local OCR + keyword judge, no secrets needed
+      CLEARANCE_NPPES_LIVE: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - run: uv sync
+      - run: uv run python -m clearance.eval --no-store
+      - name: No defective order may be auto-routed READY
+        run: |
+          uv run python - <<'PY'
+          import json, sys
+          data = json.load(open("reports/latest.json"))
+          bad = {k: s["unsafe_ready"] for k, s in data["suites"].items() if s["unsafe_ready"]}
+          print(json.dumps({k: {"defect_recall": s["defect_recall"], "unsafe_ready": s["unsafe_ready"]}
+                            for k, s in data["suites"].items()}, indent=2))
+          sys.exit(1 if bad else 0)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: reports/

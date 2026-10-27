@@ -42,13 +42,20 @@ def main() -> None:
 
     REPORTS.mkdir(exist_ok=True)
     today = date.today().isoformat()
-    charts = {s: render_chart(m, REPORTS / f"threshold_{s}_{today}.png")
-              for s, m in results.items()}
-    md = render_markdown(results, charts, today)
-    out = REPORTS / f"eval_{today}.md"
-    out.write_text(md)
-    (REPORTS / "latest.json").write_text(json.dumps(
-        {"date": today, "suites": results}, indent=2, default=str))
+    extractor = next(iter(results.values()))["models"].get("extractor", "") if results else ""
+    mode = "claude" if "claude" in extractor else "offline"
+
+    # Merge with earlier suites from the same mode, so `--suite oxygen` doesn't drop pap.
+    latest_mode = REPORTS / f"latest_{mode}.json"
+    merged = json.loads(latest_mode.read_text())["suites"] if latest_mode.exists() else {}
+    merged.update(results)
+    charts = {s: render_chart(m, REPORTS / f"threshold_{s}_{mode}.png")
+              for s, m in merged.items()}
+    out = REPORTS / f"eval_{mode}.md"
+    out.write_text(render_markdown(merged, charts, today))
+    payload = json.dumps({"date": today, "mode": mode, "suites": merged}, indent=2, default=str)
+    latest_mode.write_text(payload)
+    (REPORTS / "latest.json").write_text(payload)
     print(f"wrote {out.relative_to(ROOT)}")
 
 

@@ -18,7 +18,7 @@ async function api(path, opts = {}) {
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const ACRONYMS = { f2f: "F2F", npi: "NPI", mbi: "MBI", ahi: "AHI", rdi: "RDI", spo2: "SpO2", po2: "PO2", dob: "DOB", hcpcs: "HCPCS" };
-const human = (id) => id.split("_").map((w, i) => ACRONYMS[w] || (i === 0 ? w[0].toUpperCase() + w.slice(1) : w)).join(" ");
+const human = (id) => String(id ?? "").split("_").map((w, i) => ACRONYMS[w] || (i === 0 ? w[0].toUpperCase() + w.slice(1) : w)).join(" ");
 const pct = (x, d = 0) => (x == null ? "n/a" : `${(100 * x).toFixed(d)}%`);
 const ago = (iso) => {
   if (!iso) return "";
@@ -139,15 +139,14 @@ function renderFax(data, fresh) {
     <div class="fax-head"><h2>${esc(d.extraction.fields.patient_name?.value || d.order_id)}</h2>
       <span class="muted">${esc(d.order_id)} · ${data.pages} pages · received ${esc(ago(data.meta.received_at))}</span>
       <a href="/orders/${encodeURIComponent(d.order_id)}/packet.pdf" target="_blank" rel="noopener">Open PDF</a></div>
-    ${pages.map((n) => `<figure class="sheet" id="page-${n}" style="margin-top:0">
-      <span class="pno">p${n}${docType(d, n)}</span>
+    ${pages.map((n) => `<div class="page-label">Page ${n}${docType(d, n)}</div><figure class="sheet" id="page-${n}">
       <img src="/orders/${encodeURIComponent(d.order_id)}/pages/${n}.png" alt="Page ${n} of the faxed packet" loading="lazy">
       ${n === 1 ? stamp : ""}</figure>`).join("")}`;
 }
 
 function docType(d, n) {
   const p = d.extraction.pages.find((x) => x.number === n);
-  return p?.document_type ? `<br>${esc(human(p.document_type))}` : "";
+  return p?.document_type ? `: ${esc(human(p.document_type).toLowerCase())}` : ": unrecognized page";
 }
 
 function renderFindings(data) {
@@ -155,7 +154,8 @@ function renderFindings(data) {
   const rv = data.review;
   const el = $(".findings");
   const reasons = d.reasons.map((r) => `<li>${esc(r.replace(/^[a-z_]+: /, (m) => human(m.slice(0, -2)) + ": "))}</li>`).join("");
-  const others = ROUTE_ORDER.filter((r) => r !== d.route);
+  const flagged = d.results.filter((r) => r.outcome !== "pass");
+  const passed = d.results.filter((r) => r.outcome === "pass");
   el.innerHTML = `
     <div class="verdict">
       <span class="route-chip ${d.route}">${ROUTE_LABEL[d.route]}</span>
@@ -163,25 +163,36 @@ function renderFindings(data) {
       <ul>${reasons}</ul>
       <div class="meta">Least certain field read: ${d.min_confidence == null ? "n/a" : d.min_confidence.toFixed(2)} · auto-ready bar ${d.threshold.toFixed(2)} · extractor ${esc(d.models.extractor)} · judge ${esc(d.models.judge)}</div>
       ${rv ? `<div class="reviewed">${rv.action === "override" ? `Overridden to <b>${ROUTE_LABEL[rv.final_route]}</b>` : `Approved as <b>${ROUTE_LABEL[rv.final_route]}</b>`} by ${esc(rv.reviewer)}${rv.note ? `: “${esc(rv.note)}”` : ""}. <button class="btn small" id="reopen">Reopen</button></div>`
-        : `<div class="review-row">
-            <button class="btn primary" id="approve">Approve ${ROUTE_LABEL[d.route].toLowerCase()}</button>
-            <select id="override-route" aria-label="Override route">${others.map((r) => `<option value="${r}">${ROUTE_LABEL[r]}</option>`).join("")}</select>
-            <input id="override-note" placeholder="Reason (kept as an eval case)" aria-label="Override reason">
-            <button class="btn" id="override">Override</button></div>`}
+        : reviewRow(d.route)}
     </div>
-    <div class="section"><h3>Findings <small>${d.results.filter((r) => r.outcome !== "pass").length} of ${d.results.length} rules flagged</small></h3>
-      ${d.results.map((r) => ruleHtml(r, data, true)).join("")}</div>
+    <div class="section"><h3>Findings <small>${flagged.length} of ${d.results.length} rules flagged</small></h3>
+      ${flagged.map((r) => ruleHtml(r, data, true)).join("")}
+      ${passed.length ? `<details class="passed"${flagged.length ? "" : " open"}><summary>${passed.length} rule${passed.length === 1 ? "" : "s"} met</summary>${passed.map((r) => ruleHtml(r, data, true)).join("")}</details>` : ""}</div>
     ${d.outreach ? `<div class="section"><h3>Request to the referring office <button class="btn small" id="copy-letter">Copy text</button></h3><div class="letter">${md(d.outreach)}</div></div>` : ""}
     <div class="section"><h3>Extracted fields <small>click a value to correct it</small></h3>${fieldsTable(data)}</div>
     <div class="section"><h3>Audit trail</h3><ul class="audit">${data.audit.slice().reverse().map(auditLine).join("") || "<li>No events.</li>"}</ul></div>`;
 
   el.querySelectorAll("[data-ev]").forEach((b) => b.addEventListener("click", () => focusEvidence(JSON.parse(b.dataset.ev), b)));
   el.querySelectorAll(".val[data-field]").forEach((v) => v.addEventListener("click", () => editField(v)));
-  $("#approve", el)?.addEventListener("click", () => review({ action: "approve" }));
-  $("#override", el)?.addEventListener("click", () => review({ action: "override", route: $("#override-route").value, note: $("#override-note").value }));
+  el.querySelectorAll("[data-decide]").forEach((b) => b.addEventListener("click", () => {
+    const route = b.dataset.decide;
+    const note = $("#review-note")?.value || "";
+    review(route === d.route ? { action: "approve", note } : { action: "override", route, note });
+  }));
   $("#reopen", el)?.addEventListener("click", async () => { state.current = await api(`/orders/${d.order_id}/review`, { method: "DELETE" }); renderFindings(state.current); refreshQueue(d.order_id); });
   $("#copy-letter", el)?.addEventListener("click", () => navigator.clipboard.writeText(d.outreach).then(() => toast("Request copied")));
   drawMarks(data);
+}
+
+function reviewRow(route) {
+  const btn = (r, label, primary) => `<button class="btn${primary ? " primary" : ""}" data-decide="${r}">${label}</button>`;
+  const buttons = route === "human_review"
+    ? btn("ready", "Mark ready", true) + btn("needs_info", "Request info from office", false)
+    : route === "ready"
+      ? btn("ready", "Confirm ready", true) + btn("needs_info", "Request info instead", false) + btn("human_review", "Hold for review", false)
+      : btn("needs_info", "Confirm request", true) + btn("ready", "Mark ready instead", false) + btn("human_review", "Hold for review", false);
+  return `<div class="review-row"><span class="decide">${route === "human_review" ? "Your call." : "Agree with the system?"} A different choice is logged as an override and becomes an eval case.</span>
+    ${buttons}<input id="review-note" placeholder="Note (optional)" aria-label="Review note"></div>`;
 }
 
 function headline(d) {
@@ -196,13 +207,13 @@ function ruleHtml(r, data, top) {
   const evs = r.evidence.filter((e) => e.field && !(r.type === "llm_judgment"));
   const quote = r.type === "llm_judgment" && r.evidence[0]?.quote ? r.evidence[0] : null;
   const kids = r.children?.length ? `<div class="children">${r.children.map((c) => ruleHtml(c, data, false)).join("")}</div>` : "";
-  const title = top ? human(r.rule_id) : (r.type === "llm_judgment" ? "Model check" : human(r.type));
+  const title = top ? human(r.rule_id) : (r.citation || ({ any_of: "Any one of these", all_of: "All of these", llm_judgment: "Model check", external: "External check" })[r.type] || "");
   const judge = r.type === "llm_judgment" ? `<div class="cite">Asked ${esc(r.detail.model)}: ${esc(r.detail.question)}</div>` : "";
   return `<div class="rule">
     <div class="rule-head"><span class="icon ${r.outcome}" aria-label="${OUTCOME_WORD[r.outcome]}">${OUTCOME_ICON[r.outcome]}</span>
-      <div><div class="rule-title">${esc(title)}${top && r.outcome !== "pass" && r.on_fail ? `<span class="tag">${r.outcome === "unverifiable" ? "to a reviewer" : r.on_fail === "needs_info" ? "ask the office" : "to a reviewer"}</span>` : ""}</div>
+      <div>${title ? `<div class="rule-title">${esc(title)}` : `<div>`}${top && r.outcome !== "pass" && r.on_fail ? `<span class="tag">${r.outcome === "unverifiable" ? "to a reviewer" : r.on_fail === "needs_info" ? "ask the office" : "to a reviewer"}</span>` : ""}</div>
       <div class="rule-msg">${esc(r.message)}</div>
-      ${src || r.citation ? `<div class="cite">${src ? `<a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.title)}</a>` : ""}${src && r.citation ? ". " : ""}${esc(r.citation || "")}</div>` : ""}
+      ${top && (src || r.citation) ? `<div class="cite">${src ? `<a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.title)}</a>` : ""}${src && r.citation ? ". " : ""}${esc(r.citation || "")}</div>` : ""}
       ${judge}
       ${evs.length ? `<div class="evidence">${evs.map(evChip).join("")}</div>` : ""}
       ${quote ? `<blockquote class="quote" data-ev='${esc(JSON.stringify({ quote: quote.quote, page: quote.page }))}'>“${esc(quote.quote)}”<br><small>page ${quote.page ?? "?"} · click to find it on the fax</small></blockquote>` : ""}
@@ -212,7 +223,7 @@ function ruleHtml(r, data, top) {
 }
 
 function evChip(e) {
-  const val = e.value === true ? "yes" : e.value === false ? "no" : e.value ?? "not found";
+  const val = e.value === true ? "yes" : e.value === false ? "no" : e.value ?? (e.page ? "unreadable" : "not found");
   const payload = esc(JSON.stringify({ page: e.page, bbox: e.bbox, field: e.field }));
   return `<button class="ev" data-ev='${payload}' title="${e.page ? `Show on page ${e.page}` : "Not found in the packet"}">${esc(human(e.field))}: ${esc(val)}${e.confidence != null && e.page ? `<span class="c">${e.confidence.toFixed(2)} · p${e.page}</span>` : ""}</button>`;
 }
@@ -233,13 +244,13 @@ function fieldsTable(data) {
 
 function auditLine(a) {
   const t = new Date(a.at).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
-  const what = {
-    decision: `<b>Routed ${ROUTE_LABEL[a.route] || a.route}</b> by ${esc(a.pack)}`,
-    field_edit: `<b>${esc(human(a.field))}</b> changed from ${esc(a.before)} to ${esc(a.after)}${a.route_before !== a.route_after ? `; route ${ROUTE_LABEL[a.route_before]} → ${ROUTE_LABEL[a.route_after]}` : ""}`,
-    approve: `<b>Approved</b> ${ROUTE_LABEL[a.final_route]}`,
-    override: `<b>Overridden</b> ${ROUTE_LABEL[a.system_route]} → ${ROUTE_LABEL[a.final_route]}${a.note ? `: ${esc(a.note)}` : ""}`,
-    reopen: `<b>Reopened</b> for review`,
-  }[a.event] || esc(a.event);
+  const what = ({
+    decision: () => `<b>Routed ${ROUTE_LABEL[a.route] || a.route}</b> by ${esc(a.pack)}`,
+    field_edit: () => `<b>${esc(human(a.field))}</b> changed from ${esc(a.before)} to ${esc(a.after)}${a.route_before !== a.route_after ? `; route ${ROUTE_LABEL[a.route_before]} → ${ROUTE_LABEL[a.route_after]}` : ""}`,
+    approve: () => `<b>Approved</b> ${ROUTE_LABEL[a.final_route]}`,
+    override: () => `<b>Overridden</b> ${ROUTE_LABEL[a.system_route]} → ${ROUTE_LABEL[a.final_route]}${a.note ? `: ${esc(a.note)}` : ""}`,
+    reopen: () => `<b>Reopened</b> for review`,
+  }[a.event] || (() => esc(a.event)))();
   return `<li>${t} · ${what}</li>`;
 }
 

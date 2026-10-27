@@ -331,7 +331,10 @@ app.mount("/ui", StaticFiles(directory=UI), name="ui")
 
 @app.get("/", response_class=HTMLResponse)
 def index():
-    return (UI / "index.html").read_text()
+    html = (UI / "index.html").read_text()
+    for asset in ("app.css", "app.js"):          # cache-bust so edits show on reload
+        html = html.replace(f"/ui/{asset}", f"/ui/{asset}?v={int((UI / asset).stat().st_mtime)}")
+    return html
 
 
 @app.get("/reports/{name}")

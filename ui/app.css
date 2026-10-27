@@ -57,6 +57,7 @@
 html, body { height: 100%; }
 body {
   margin: 0;
+  display: flex; flex-direction: column;
   background: var(--paper);
   color: var(--ink);
   font: 15px/1.5 var(--sans);
@@ -100,9 +101,11 @@ h3 { font-size: 0.95rem; font-weight: 650; }
 .btn.small { padding: 4px 10px; font-size: 0.82rem; }
 
 /* --- queue layout ------------------------------------------------------------- */
+#view { flex: 1; min-height: 0; overflow-y: auto; }
 .desk {
   display: grid; grid-template-columns: 290px minmax(0, 1fr) minmax(360px, 460px);
-  height: calc(100vh - 53px);
+  grid-template-rows: minmax(0, 1fr);
+  height: 100%;
 }
 .queue { border-right: 1px solid var(--rule); background: var(--surface); overflow-y: auto; }
 .queue-group h3 {
@@ -135,11 +138,8 @@ h3 { font-size: 0.95rem; font-weight: 650; }
   position: relative; max-width: 760px; margin: 0 auto 22px; background: #fff;
   box-shadow: 0 1px 0 var(--rule), 0 8px 24px -12px rgba(15, 25, 40, 0.35);
 }
-.sheet img { display: block; width: 100%; height: auto; }
-.sheet .pno {
-  position: absolute; left: -2px; top: 8px; transform: translateX(-100%); color: var(--muted);
-  font-size: 0.78rem; padding-right: 8px;
-}
+.sheet img { display: block; width: 100%; height: auto; aspect-ratio: 8.5 / 11; }
+.page-label { max-width: 760px; margin: 0 auto 6px; color: var(--muted); font-size: 0.8rem; }
 .mark {
   position: absolute; background: var(--hl-soft); mix-blend-mode: multiply; border-radius: 2px;
   pointer-events: none; outline: 2px solid transparent; transition: outline-color 0.2s;
@@ -155,7 +155,7 @@ h3 { font-size: 0.95rem; font-weight: 650; }
   border-radius: 6px; outline: 1.5px solid currentColor; outline-offset: 2px; opacity: 0.88;
   mix-blend-mode: multiply; pointer-events: none; background: transparent;
 }
-.stamp small { display: block; font-size: 0.5em; letter-spacing: 0.04em; margin-top: 4px; font-weight: 600; }
+.stamp small { display: block; font-size: 0.5em; letter-spacing: 0.02em; margin-top: 4px; font-weight: 600; text-transform: none; }
 .stamp.ready { color: #23704b; }
 .stamp.needs_info { color: #9a5b0c; }
 .stamp.human_review { color: #5b3fb0; }
@@ -227,6 +227,9 @@ blockquote.quote mark { background: var(--hl-soft); color: inherit; }
 .children { margin: 6px 0 0 30px; padding-left: 10px; border-left: 1px dashed var(--rule); }
 .children .rule { padding: 6px 0; border-top: 0; }
 .children .rule-msg { font-size: 0.85rem; color: var(--muted); }
+.children .rule-title { font-weight: 500; font-size: 0.86rem; }
+.passed summary { cursor: pointer; color: var(--muted); font-size: 0.88rem; padding: 8px 0 2px; }
+.decide { font-size: 0.85rem; color: var(--muted); width: 100%; margin-bottom: -4px; }
 details.more summary { cursor: pointer; color: var(--muted); font-size: 0.82rem; margin-top: 4px; }
 
 table.fields { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
@@ -257,7 +260,7 @@ table.fields input { font: inherit; width: 100%; padding: 2px 4px; border: 1px s
 .empty p { max-width: 36ch; }
 
 /* --- packs ------------------------------------------------------------------------- */
-.packs { display: grid; grid-template-columns: 260px minmax(0, 1fr) minmax(320px, 420px); height: calc(100vh - 53px); }
+.packs { display: grid; grid-template-columns: 260px minmax(0, 1fr) minmax(320px, 420px); grid-template-rows: minmax(0, 1fr); height: 100%; }
 .pack-list { background: var(--surface); border-right: 1px solid var(--rule); overflow-y: auto; }
 .pack-list button { display: block; width: 100%; text-align: left; font: inherit; background: none; border: 0; border-bottom: 1px solid var(--rule); padding: 12px 16px; cursor: pointer; color: inherit; border-left: 3px solid transparent; }
 .pack-list button[aria-current="true"] { background: var(--sunk); border-left-color: var(--action); }
@@ -313,11 +316,11 @@ dialog p { margin: 6px 0 14px; font-size: 0.9rem; }
 
 /* --- small screens --------------------------------------------------------------------- */
 @media (max-width: 1100px) {
-  .desk { grid-template-columns: 240px minmax(0, 1fr); }
+  .desk { grid-template-columns: 240px minmax(0, 1fr); grid-template-rows: auto; }
   .findings { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--rule); }
   .desk { height: auto; }
   .queue, .fax { max-height: 70vh; }
-  .packs { grid-template-columns: 220px minmax(0, 1fr); height: auto; }
+  .packs { grid-template-columns: 220px minmax(0, 1fr); grid-template-rows: auto; height: auto; }
   .check { grid-column: 1 / -1; border-left: 0; }
 }
 @media (max-width: 720px) {
@@ -327,7 +330,6 @@ dialog p { margin: 6px 0 14px; font-size: 0.9rem; }
   .desk, .packs { display: block; }
   .queue { max-height: 40vh; }
   .fax { padding: 16px; max-height: none; }
-  .sheet .pno { display: none; }
   .sweep, .two { grid-template-columns: 1fr; }
   .results { padding: 20px 16px 40px; }
   .suite { padding: 16px; }

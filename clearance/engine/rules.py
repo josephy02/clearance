@@ -52,8 +52,12 @@ def is_deterministic(rule) -> bool:
 
 # --- field access ---------------------------------------------------------------
 
+_ACRONYMS = {"ahi": "AHI", "rdi": "RDI", "npi": "NPI", "mbi": "MBI", "f2f": "F2F",
+             "spo2": "SpO2", "po2": "PO2", "dob": "DOB"}
+
+
 def _label(ctx: EvalContext, name: str) -> str:
-    return name.replace("_", " ")
+    return " ".join(_ACRONYMS.get(w, w) for w in name.split("_"))
 
 
 def _read(ctx: EvalContext, names: list[str]):
@@ -96,17 +100,21 @@ def _as_date(value) -> date:
     return value if isinstance(value, date) else date.fromisoformat(str(value)[:10])
 
 
+def _cap(s: str) -> str:
+    return s[:1].upper() + s[1:]
+
+
 # --- leaf rules -------------------------------------------------------------------
 
 def _present(rule, ctx):
     return _leaf(rule, ctx, [rule.field],
-                 lambda v: (True, f"{_label(ctx, rule.field).capitalize()} is present."))
+                 lambda v: (True, f"{_cap(_label(ctx, rule.field))} is present."))
 
 
 def _present_true(rule, ctx):
-    name = _label(ctx, rule.field)
+    name = _cap(_label(ctx, rule.field))
     return _leaf(rule, ctx, [rule.field],
-                 lambda v: (v is True, f"{name.capitalize()}: {'yes' if v is True else 'no'}."))
+                 lambda v: (v is True, f"{name}: {'yes' if v is True else 'no'}."))
 
 
 def _pattern(rule, ctx):
@@ -123,7 +131,7 @@ def _in(rule, ctx):
 
     def check(v):
         ok = norm(v) in [norm(x) for x in rule.values]
-        return ok, f"{_label(ctx, rule.field).capitalize()} is '{v}'."
+        return ok, f"{_cap(_label(ctx, rule.field))} is '{v}'."
     return _leaf(rule, ctx, [rule.field], check)
 
 
@@ -139,7 +147,7 @@ def _date_order(rule, ctx):
         ok = _RELATIONS[rule.relation](da, db)
         rel = rule.relation.replace("_", " ")
         verdict = "is" if ok else "is not"
-        return ok, (f"{_label(ctx, rule.a).capitalize()} ({da}) {verdict} {rel} "
+        return ok, (f"{_cap(_label(ctx, rule.a))} ({da}) {verdict} {rel} "
                     f"{_label(ctx, rule.b)} ({db}).")
     return _leaf(rule, ctx, [rule.a, rule.b], check)
 
@@ -151,7 +159,7 @@ def _date_window(rule, ctx):
               and (rule.max_days is None or days <= rule.max_days))
         lo = rule.min_days if rule.min_days is not None else "-inf"
         hi = rule.max_days if rule.max_days is not None else "inf"
-        return ok, (f"{_label(ctx, rule.b).capitalize()} is {days} days after "
+        return ok, (f"{_cap(_label(ctx, rule.b))} is {days} days after "
                     f"{_label(ctx, rule.a)} (allowed {lo} to {hi}).")
     return _leaf(rule, ctx, [rule.a, rule.b], check)
 
@@ -163,7 +171,7 @@ _OPS = {">=": operator.ge, ">": operator.gt, "<=": operator.le, "<": operator.lt
 def _numeric(rule, ctx):
     def check(v):
         ok = _OPS[rule.op](float(v), rule.value)
-        return ok, f"{_label(ctx, rule.field).upper()} = {v} ({'meets' if ok else 'fails'} " \
+        return ok, f"{_cap(_label(ctx, rule.field))} = {v} ({'meets' if ok else 'fails'} " \
                    f"{rule.op} {rule.value:g})."
     return _leaf(rule, ctx, [rule.field], check)
 
@@ -171,7 +179,7 @@ def _numeric(rule, ctx):
 def _numeric_range(rule, ctx):
     def check(v):
         ok = rule.min <= float(v) <= rule.max
-        return ok, f"{_label(ctx, rule.field).upper()} = {v} " \
+        return ok, f"{_cap(_label(ctx, rule.field))} = {v} " \
                    f"({'within' if ok else 'outside'} {rule.min:g}-{rule.max:g})."
     return _leaf(rule, ctx, [rule.field], check)
 
