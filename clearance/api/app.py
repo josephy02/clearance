@@ -342,6 +342,9 @@ def _autoseed():
 # --- UI --------------------------------------------------------------------------------
 
 app.mount("/ui", StaticFiles(directory=UI), name="ui")
+for _name in ("docs", "reports"):             # deck, implementation kit, eval reports
+    (ROOT / _name).mkdir(exist_ok=True)
+    app.mount(f"/files/{_name}", StaticFiles(directory=ROOT / _name), name=_name)
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -352,10 +355,4 @@ def index():
     return html
 
 
-@app.get("/reports/{name}")
-def report_file(name: str):
-    p = (ROOT / "reports" / name).resolve()
-    if p.parent != (ROOT / "reports").resolve() or not p.exists():
-        raise HTTPException(404)
-    return FileResponse(p)
 

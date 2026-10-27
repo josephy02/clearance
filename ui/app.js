@@ -460,7 +460,7 @@ async function showResults(mode) {
   } catch { view.innerHTML = `<div class="results"><h2>No results yet</h2><p>Run <code>make eval</code> to score the pipeline against the synthetic ground truth.</p></div>`; return; }
   state.evalMode = mode;
   view.innerHTML = `<div class="results"><h1 style="font-size:1.6rem">How well it works</h1>
-    <p>Scored against ${Object.values(data.suites).reduce((a, s) => a + s.orders, 0)} synthetic faxed orders with planted defects (${esc(data.date)}). Expected outcomes come from the generator, not the engine.</p>
+    <p>Scored against ${Object.values(data.suites).reduce((a, s) => a + s.orders, 0)} synthetic faxed orders with planted defects (${esc(data.date)}). Expected outcomes come from the generator, not the engine. Full reports: <a href="/files/reports/eval_${mode}.md" target="_blank" rel="noopener">eval_${mode}.md</a> · <a href="/files/docs/implementation_kit.pdf" target="_blank" rel="noopener">implementation kit</a> · <a href="/files/docs/deck.html" target="_blank" rel="noopener">slides</a></p>
     ${modes.length > 1 ? `<div class="modes" role="group" aria-label="Pipeline mode">${modes.map((m) => `<button data-mode="${m}" aria-pressed="${m === mode}">${MODE_LABEL[m] || m}</button>`).join("")}</div>` : ""}
     ${Object.entries(data.suites).map(([k, s]) => suiteHtml(k, s)).join("")}</div>`;
   view.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => showResults(b.dataset.mode)));
@@ -478,7 +478,7 @@ function suiteHtml(k, s) {
       <div><b>${s.unsafe_ready.length}</b><span>defective orders marked Ready</span></div>
       <div><b>${pct(s.field_accuracy, 1)}</b><span>fields read correctly</span></div>
       <div><b>${pct(s.routing_accuracy)}</b><span>routed as expected</span></div>
-      <div><b>${s.latency_p50_s.toFixed(1)}s</b><span>median time per order</span></div>
+      <div><b>${s.latency_p50_s.toFixed(1)}s</b><span>median per order, OCR cached</span></div>
     </div>
     <h3>Automation vs. error as the confidence bar moves</h3>
     <div class="sweep"><div><svg viewBox="0 0 560 230" role="img" aria-label="Auto-routed rate and error rate by threshold"></svg>
