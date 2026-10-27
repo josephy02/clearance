@@ -204,6 +204,7 @@ def parse_value(spec: FieldSpec, raw: str):
         for tok in raw.split():
             if not re.search(r"\d", tok):
                 continue
+            tok = tok.lstrip(".,:;'`")
             fixed = _fix_digits(tok)
             m = re.match(r"\d+(?:\.\d+)?", fixed)
             if m:

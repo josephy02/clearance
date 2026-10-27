@@ -10,6 +10,7 @@ review UI highlights.
 from __future__ import annotations
 
 import base64
+import difflib
 import io
 import json
 import os
@@ -90,7 +91,12 @@ def _same(spec, a, b) -> bool:
         return abs(float(a) - float(b)) < 1e-6
     x, y = _norm(str(a)), _norm(str(b))
     x, y = "".join(c for c in x if c.isalnum()), "".join(c for c in y if c.isalnum())
-    return x == y or (len(x) >= 4 and (x in y or y in x))
+    if x == y or (len(x) >= 4 and (x in y or y in x)):
+        return True
+    # Free text (names, item descriptions): tolerate OCR noise. Dates, numbers, and IDs
+    # were normalized by parse_value and must match exactly.
+    free_text = spec.type == "string" and not spec.name.endswith(("_id", "npi"))
+    return free_text and len(x) >= 12 and difflib.SequenceMatcher(None, x, y).ratio() >= 0.85
 
 
 class ClaudeExtractor:

@@ -248,18 +248,26 @@ def try_pack(draft: PackDraft, limit: int = 60):
         raise HTTPException(422, str(err)) from err
     counts = {r.value: 0 for r in Route}
     changed = []
+    try:
+        installed = load_pack(pack.pack_id)
+        same_schema = installed.extraction == pack.extraction
+    except PackError:
+        same_schema = False
     for oid in store.list_orders()[:limit]:
         old = store.load_decision(oid)
         if old.pack_id != pack.pack_id:
             continue
-        pages, images = ocr_pdf(store.order_dir(oid) / "packet.pdf")
-        extraction = OcrFieldExtractor().extract(pack, pages, images)
+        if same_schema:      # only the rules changed: re-run them on what was already read
+            extraction = old.extraction
+        else:                # new fields or labels: re-read the fax (local OCR, from cache)
+            pages, images = ocr_pdf(store.order_dir(oid) / "packet.pdf")
+            extraction = OcrFieldExtractor().extract(pack, pages, images)
         new = pipeline().decide(pack, extraction, order_id=oid)
         counts[new.route.value] += 1
         if new.route != old.route:
             changed.append({"order_id": oid, "before": old.route, "after": new.route,
                             "reason": new.reasons[0] if new.reasons else ""})
-    return {"counts": counts, "changed": changed}
+    return {"counts": counts, "changed": changed, "reextracted": not same_schema}
 
 
 # --- results, lookups, demo data ------------------------------------------------------------
