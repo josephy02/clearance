@@ -1,0 +1,44 @@
+{
+  "order_id": "oxy-014",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Calvin Abernathy",
+    "patient_dob": "1938-08-26",
+    "medicare_id": "2GT9F46XX13",
+    "ordering_provider_name": "Kenji Albrecht, MD",
+    "ordering_npi": "1909139093",
+    "item_ordered": "E1390",
+    "order_date": "2026-01-23",
+    "order_signed": true,
+    "test_date": "2026-01-18",
+    "test_condition": "exercise",
+    "on_room_air": true,
+    "spo2": 80,
+    "po2": null,
+    "baseline_spo2": 94,
+    "test_performer": "laboratory",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "pass",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "blood_gas_report",
+    "face_to_face_note",
+    "order_swo",
+    "insurance_card"
+  ],
+  "synthetic": true
+}

@@ -1,0 +1,46 @@
+{
+  "order_id": "oxy-015",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [
+    "unsigned_order"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Vernon Crowhurst",
+    "patient_dob": "1957-04-08",
+    "medicare_id": "6C32NC0JV46",
+    "ordering_provider_name": "Ines Varga, MD",
+    "ordering_npi": "1946281940",
+    "item_ordered": "E1390",
+    "order_date": "2026-02-07",
+    "order_signed": false,
+    "test_date": "2026-02-05",
+    "test_condition": "rest",
+    "on_room_air": true,
+    "spo2": 85,
+    "po2": null,
+    "baseline_spo2": null,
+    "test_performer": "laboratory",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "fail",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "pass",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "blood_gas_report",
+    "insurance_card"
+  ],
+  "synthetic": true
+}

@@ -14,7 +14,7 @@ import tempfile
 from pathlib import Path
 
 from ..integrations.x12_decode import build_271
-from . import pap
+from . import oxygen, pap
 from .fax import degrade, rasterize, save_pdf, smudge
 from .people import make_patient, make_practitioners, roster
 
@@ -57,6 +57,16 @@ def generate(packs: list[str], seed: int) -> None:
         out.mkdir(parents=True, exist_ok=True)
         for o in pap.plan_orders(rng, practitioners, used, make_patient):
             write_packet(o, pap.render_packet, out / f"{o.order_id}.pdf", rng)
+            write_eligibility(o.patient, o.eligibility)
+            (gt_dir / f"{o.order_id}.json").write_text(json.dumps(o.ground_truth(), indent=2))
+            print(f"{o.order_id}  {o.level:<6} {o.expected_route():<13} {','.join(o.defects)}")
+
+    if "oxygen" in packs:
+        orng = random.Random(seed + 1)      # independent stream: regenerating one suite
+        out = DATA / "fixtures" / "oxygen"  # never reshuffles the other
+        out.mkdir(parents=True, exist_ok=True)
+        for o in oxygen.plan_orders(orng, practitioners, set(), make_patient):
+            write_packet(o, oxygen.render_packet, out / f"{o.order_id}.pdf", orng)
             write_eligibility(o.patient, o.eligibility)
             (gt_dir / f"{o.order_id}.json").write_text(json.dumps(o.ground_truth(), indent=2))
             print(f"{o.order_id}  {o.level:<6} {o.expected_route():<13} {','.join(o.defects)}")

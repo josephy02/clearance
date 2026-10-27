@@ -1,0 +1,44 @@
+{
+  "order_id": "oxy-020",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Lucinda Delacroix",
+    "patient_dob": "1953-02-09",
+    "medicare_id": "3WJ3R39HN88",
+    "ordering_provider_name": "Tobias Ferreira, PA-C",
+    "ordering_npi": "1982199352",
+    "item_ordered": "E1390",
+    "order_date": "2026-06-24",
+    "order_signed": true,
+    "test_date": "2026-06-15",
+    "test_condition": "rest",
+    "on_room_air": true,
+    "spo2": 87,
+    "po2": null,
+    "baseline_spo2": null,
+    "test_performer": "practitioner",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "pass",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "insurance_card",
+    "blood_gas_report",
+    "face_to_face_note"
+  ],
+  "synthetic": true
+}

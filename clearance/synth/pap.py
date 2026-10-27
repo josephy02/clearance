@@ -222,7 +222,7 @@ def page_cover(doc: Document, o: PapOrder, total_pages: int):
     p.kv("Phone", clinic[2])
     p.kv("Date", fmt_date(o.order + timedelta(days=1), v))
     p.kv("Number of pages", f"{total_pages} (including cover)")
-    p.kv("Re", f"CPAP order for patient {o.patient.name}")
+    p.kv("Re", f"{getattr(o, 'item_label', 'CPAP order')} for patient {o.patient.name}")
     p.skip(14)
     p.para("Please find attached the order and supporting documentation for the above patient. "
            "Call our office with any questions.")

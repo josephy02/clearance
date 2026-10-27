@@ -1,0 +1,45 @@
+{
+  "order_id": "oxy-011",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Priya Thibodeaux",
+    "patient_dob": "1943-02-11",
+    "medicare_id": "6RG2K86FR93",
+    "ordering_provider_name": "Ines Varga, MD",
+    "ordering_npi": "1946281940",
+    "item_ordered": "E1390",
+    "order_date": "2026-01-31",
+    "order_signed": true,
+    "test_date": "2026-01-19",
+    "test_condition": "exercise",
+    "on_room_air": true,
+    "spo2": 85,
+    "po2": null,
+    "baseline_spo2": 92,
+    "test_performer": "practitioner",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "pass",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "insurance_card",
+    "other",
+    "blood_gas_report",
+    "order_swo",
+    "face_to_face_note"
+  ],
+  "synthetic": true
+}

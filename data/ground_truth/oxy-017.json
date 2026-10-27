@@ -1,0 +1,44 @@
+{
+  "order_id": "oxy-017",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Odessa Paredes",
+    "patient_dob": "1938-08-17",
+    "medicare_id": "1T23NN0AA94",
+    "ordering_provider_name": "Rowan Esposito, ARNP",
+    "ordering_npi": "1996030825",
+    "item_ordered": "E1390",
+    "order_date": "2026-08-09",
+    "order_signed": true,
+    "test_date": "2026-08-08",
+    "test_condition": "exercise",
+    "on_room_air": true,
+    "spo2": 86,
+    "po2": null,
+    "baseline_spo2": 92,
+    "test_performer": "practitioner",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "pass",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "blood_gas_report",
+    "insurance_card"
+  ],
+  "synthetic": true
+}

@@ -1,0 +1,47 @@
+{
+  "order_id": "oxy-005",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [
+    "not_qualifying"
+  ],
+  "degradation": "light",
+  "fields": {
+    "patient_name": "Bernard Whitcombe",
+    "patient_dob": "1953-02-20",
+    "medicare_id": "7TE1HY3UU19",
+    "ordering_provider_name": "Helena Marchetti, MD",
+    "ordering_npi": "1966131868",
+    "item_ordered": "E1390",
+    "order_date": "2026-04-03",
+    "order_signed": true,
+    "test_date": "2026-04-03",
+    "test_condition": "rest",
+    "on_room_air": true,
+    "spo2": 91,
+    "po2": null,
+    "baseline_spo2": null,
+    "test_performer": "laboratory",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "fail",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "blood_gas_report",
+    "insurance_card",
+    "other"
+  ],
+  "synthetic": true
+}

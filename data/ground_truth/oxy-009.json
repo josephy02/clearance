@@ -1,0 +1,46 @@
+{
+  "order_id": "oxy-009",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [
+    "group2_with_condition"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Russell Yarborough",
+    "patient_dob": "1956-06-21",
+    "medicare_id": "4PJ3V37JJ76",
+    "ordering_provider_name": "Rowan Esposito, ARNP",
+    "ordering_npi": "1996030825",
+    "item_ordered": "E1390",
+    "order_date": "2026-08-14",
+    "order_signed": true,
+    "test_date": "2026-08-10",
+    "test_condition": "rest",
+    "on_room_air": true,
+    "spo2": 89,
+    "po2": null,
+    "baseline_spo2": null,
+    "test_performer": "hospital",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "pass",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "blood_gas_report",
+    "insurance_card"
+  ],
+  "synthetic": true
+}

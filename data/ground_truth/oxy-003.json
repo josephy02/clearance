@@ -1,0 +1,47 @@
+{
+  "order_id": "oxy-003",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [
+    "not_room_air"
+  ],
+  "degradation": "heavy",
+  "fields": {
+    "patient_name": "Hattie Pemberton",
+    "patient_dob": "1951-05-21",
+    "medicare_id": "7G16EG0HG38",
+    "ordering_provider_name": "Samuel Oduya, DO",
+    "ordering_npi": "1959083019",
+    "item_ordered": "E1390",
+    "order_date": "2026-01-18",
+    "order_signed": true,
+    "test_date": "2026-01-13",
+    "test_condition": "rest",
+    "on_room_air": false,
+    "spo2": null,
+    "po2": 52,
+    "baseline_spo2": null,
+    "test_performer": "practitioner",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "fail",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "blood_gas_report",
+    "insurance_card",
+    "other"
+  ],
+  "synthetic": true
+}

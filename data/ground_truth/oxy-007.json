@@ -1,0 +1,43 @@
+{
+  "order_id": "oxy-007",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Mabel Wojcik",
+    "patient_dob": "1951-04-20",
+    "medicare_id": "2N96J04DW53",
+    "ordering_provider_name": "Samuel Oduya, DO",
+    "ordering_npi": "1959083019",
+    "item_ordered": "E1390",
+    "order_date": "2026-05-23",
+    "order_signed": true,
+    "test_date": "2026-05-18",
+    "test_condition": "sleep",
+    "on_room_air": true,
+    "spo2": 83,
+    "po2": null,
+    "baseline_spo2": 90,
+    "test_performer": "hospital",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "pass",
+    "qualified_tester": "pass",
+    "test_before_order": "pass",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "ready",
+  "page_types": [
+    "order_swo",
+    "face_to_face_note",
+    "blood_gas_report",
+    "insurance_card"
+  ],
+  "synthetic": true
+}

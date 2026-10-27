@@ -1,0 +1,47 @@
+{
+  "order_id": "oxy-004",
+  "pack_id": "medicare-oxygen-home",
+  "defects": [
+    "test_after_order"
+  ],
+  "degradation": "clean",
+  "fields": {
+    "patient_name": "Lucinda Brannigan",
+    "patient_dob": "1941-10-28",
+    "medicare_id": "2VV5F58UF77",
+    "ordering_provider_name": "Kenji Albrecht, MD",
+    "ordering_npi": "1909139093",
+    "item_ordered": "E1390",
+    "order_date": "2026-05-25",
+    "order_signed": true,
+    "test_date": "2026-06-03",
+    "test_condition": "rest",
+    "on_room_air": true,
+    "spo2": 84,
+    "po2": null,
+    "baseline_spo2": null,
+    "test_performer": "practitioner",
+    "hematocrit": null
+  },
+  "illegible_fields": [],
+  "rules": {
+    "order_signed": "pass",
+    "order_elements": "pass",
+    "mbi_format": "pass",
+    "qualifying_blood_gas": "pass",
+    "qualified_tester": "pass",
+    "test_before_order": "fail",
+    "provider_active": "pass",
+    "coverage_active": "pass"
+  },
+  "route": "needs_info",
+  "page_types": [
+    "cover_sheet",
+    "order_swo",
+    "face_to_face_note",
+    "blood_gas_report",
+    "insurance_card",
+    "other"
+  ],
+  "synthetic": true
+}
