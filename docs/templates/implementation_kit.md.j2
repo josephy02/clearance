@@ -1,0 +1,137 @@
+# Implementation kit: Cascade Sleep & Respiratory
+
+*Fictional customer. Every number marked **(A)** is an assumption to replace in discovery;
+every number marked **(M)** is measured on this repo's synthetic eval (`make eval`,
+{{EVAL_DATE}}).*
+
+---
+
+## 1. Discovery and operational audit
+
+**Who they are (A).** Regional sleep and respiratory DME supplier, Washington and Oregon.
+~1,500 new PAP orders a month, growing into home oxygen. Six intake coordinators. Orders
+arrive by fax from ~400 referring practices; billing runs in Brightree.
+
+**Current intake workflow (A).**
+
+```
+fax line ─► shared inbox ─► coordinator opens packet ─► keys order into Brightree
+                                  │
+                                  ├─ checks: signed order? F2F before sleep test?
+                                  │  AHI and events? MBI? NPI? eligibility portal
+                                  │
+                complete ◄────────┴────────► incomplete: call or fax the office,
+                   │                         park it, re-check when papers return
+                   ▼
+             schedule setup
+```
+
+**Where the time goes (A).** ~18 minutes of hands-on time per order: 4 min finding and
+ordering pages, 5 min keying, 6 min checking criteria, 3 min eligibility lookup. Incomplete
+orders add a 10-minute outreach cycle, usually more than once.
+
+**Top defect types.** The synthetic set plants the defects that drive Medicare PAP
+documentation errors in published DME MAC review findings: missing or unsigned orders,
+face-to-face notes that don't predate the sleep test, AHI 5–14 without a documented
+qualifying condition, missing sleep study pages, and provider or eligibility problems.
+In discovery, replace the planted mix with 200 of their own recent orders, labeled by a
+senior coordinator.
+
+| Defect (planted) | Share of synthetic orders | Who fixes it |
+|---|---|---|
+| Unsigned order | {{UNSIGNED}} | Referring office (needs info) |
+| F2F after sleep test | {{F2F}} | Referring office (needs info) |
+| Sleep study page missing | {{MISSING_STUDY}} | Referring office (needs info) |
+| AHI 5–14, no qualifying condition documented | {{MILD}} | Reviewer, then office |
+| Invalid / inactive NPI | {{NPI}} | Reviewer |
+| Eligibility inactive | {{ELIG}} | Reviewer / billing |
+| Key field illegible | {{ILLEGIBLE}} | Reviewer |
+
+---
+
+## 2. Solution design
+
+```
+   criteria packs (YAML, versioned): medicare-pap-osa-initial, oxygen, ...
+                                    │
+ fax ─► PDF ─┬─► local OCR ──┐      ▼
+             │               ├─► fields ─► rules ─► route ─► review queue
+             └─► Claude ─────┘   + conf.     │                    │
+                 (disagree → reviewer)       ├─ ProviderCheck: NPPES
+                                             ├─ EligibilityCheck: Stedi /
+                                             │  Brightree export
+                                             └─ llm_judgment + quote guard
+ needs info ─► drafted outreach fax        every decision, edit, override
+                                           ─► audit log ─► Brightree export
+```
+
+* **Packs:** start with `medicare-pap-osa-initial`; `medicare-oxygen-home` in phase 3.
+  Each rule cites the LCD or documentation article it comes from.
+* **Integration points.** Fax line → `POST /orders`. Eligibility: Stedi today; their
+  existing clearinghouse or a Brightree eligibility export plugs in behind
+  `EligibilityCheck` without touching rules. Provider: NPPES behind `ProviderCheck`, with
+  their referring-practice roster checked first. Output: the decision JSON maps onto a
+  Brightree sales order and document attachments.
+* **Review workflow.** Queue sorted Human review → Needs info → Ready, oldest first. A
+  coordinator approves or overrides the route; overrides are saved as new eval cases.
+* **Thresholds.** Auto-ready only when every field a rule used was read at ≥ the pack's bar
+  ({{THRESHOLD}} for PAP, set from the sweep as the lowest bar with zero defective orders
+  auto-routed). Fields below 0.6 make their rule *unverifiable*: a person checks, nothing
+  is guessed.
+
+---
+
+## 3. Business case
+
+**Formula**
+
+```
+minutes saved / month = orders × (t_before − t_after)
+t_after               = a × t_ready_check + (1 − a) × t_review
+FTE hours freed       = minutes saved / 60
+FTEs                  = FTE hours freed / 140 productive hours per FTE-month
+```
+
+| Input | Value | Source |
+|---|---|---|
+| orders / month | 1,500 | (A) |
+| t_before: hands-on minutes per order today | 18 | (A) |
+| a: share auto-routed Ready | {{AUTO_RATE}} | (M) PAP, at {{THRESHOLD}} |
+| t_ready_check: spot check of an auto-ready order | 1.5 min | (A) |
+| t_review: reviewer time on a flagged order, with findings and evidence pre-highlighted | 6 min | (A), validate in shadow mode |
+| pipeline time per order | {{LATENCY}} median including OCR, unattended | (M) |
+| model cost per order | {{COST}} | (M) |
+
+**Result (with the inputs above):** t_after = {{T_AFTER}} min. Minutes saved per month =
+{{MIN_SAVED}}, which is **{{HOURS}} hours, or {{FTES}} FTEs**, redeployed to outreach and
+patient setup. Model spend is {{MONTHLY_COST}} a month.
+
+**Orders cleared faster.** Incomplete orders get a drafted, cited request the same hour
+they arrive instead of after a coordinator reaches them in the inbox.
+
+**Denials avoided (A).** If 5% of orders currently ship with a documentation defect, every
+defect the engine catches before dispensing is a denial or recoupment avoided. On the
+synthetic set it caught {{RECALL}} of planted defects (M); real-world recall on their own
+faxes is exactly what phase 0 measures, so size this line with their denial log then.
+
+---
+
+## 4. Rollout plan
+
+| Phase | What runs | Humans | Exit criteria | Owner |
+|---|---|---|---|---|
+| **0. Shadow** (4 weeks) | Engine routes every order; decisions are logged, not acted on | Coordinators work as today; weekly diff review | ≥ 95% defect recall on their labeled orders; zero defective orders the engine would have called Ready | SE + intake lead |
+| **1. Auto-route Ready** | Orders above the bar skip full review; 10% random spot check | Coordinators review flagged orders in the queue | Spot-check error rate < 1%; reviewer minutes per flagged order ≤ 6 | Intake lead |
+| **2. Outreach drafts** | Needs-info orders get a drafted fax; coordinator sends it | Coordinator edits and sends | ≥ 80% of drafts sent without edits; days-to-complete down 30% | Intake lead + practice liaison |
+| **3. More packs** | Add `medicare-oxygen-home`, then continued-coverage PAP | Same queue | Each pack passes its own synthetic + 100-order shadow eval before go-live | SE |
+
+**Risks**
+
+* *Rule accuracy.* Packs encode real policy; a wrong criterion undercuts trust. Every
+  rule cites its source; a DME billing lead signs off each pack version before go-live.
+* *Fax quality worse than synthetic.* Shadow mode on their own faxes sets the real
+  threshold; the confidence bar moves per pack, not in code.
+* *Over-trusting automation.* The system never approves or denies; Ready means the
+  documentation is complete. Spot checks never go to zero.
+* *PHI.* Production needs BAA-covered model hosting, access control, encryption at rest,
+  and audit retention (see README).

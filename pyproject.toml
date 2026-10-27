@@ -25,7 +25,13 @@ dependencies = [
 clearance = "clearance.cli:app"
 
 [dependency-groups]
-dev = ["pytest>=8", "ruff>=0.6", "respx>=0.21", "matplotlib>=3.9"]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "respx>=0.21",
+    "matplotlib>=3.9",
+    "markdown>=3.11.2",
+]
 
 [build-system]
 requires = ["hatchling"]
