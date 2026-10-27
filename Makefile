@@ -1,4 +1,4 @@
-.PHONY: install test lint data eval serve
+.PHONY: install test lint data eval serve docs redecide
 
 install:
 	uv sync
@@ -17,3 +17,9 @@ eval:
 
 serve:
 	uv run uvicorn clearance.api.app:app --reload --port 8000
+
+docs:
+	uv run python docs/build.py
+
+redecide:
+	uv run python -m clearance.api.redecide
